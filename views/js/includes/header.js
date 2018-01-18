@@ -12,24 +12,24 @@ document.write('<a ');
 if (pageName=='viewer') {
     document.write(' class="active" ');
 }
-document.write(' href="viewer.ejs">View Kitties</a>');
+document.write(' href="viewer.html">View Kitties</a>');
 
 document.write('<a ');
 if (pageName=='family') {
     document.write(' class="active" ');
 }
-document.write(' href="family.ejs">Family Tree</a>');
+document.write(' href="family.html">Family Tree</a>');
 
 document.write('<a ');
 if (pageName=='arena') {
     document.write(' class="active" ');
 }
-document.write(' href="arena.ejs">Battle</a>');
+document.write(' href="arena.html">Battle</a>');
 
 document.write('<a ');
 if (pageName=='feedback') {
     document.write(' class="active" ');
 }
-document.write(' href="feedback.ejs">Feedback</a>');
+document.write(' href="feedback.html">Feedback</a>');
 
 document.write('</div>');
