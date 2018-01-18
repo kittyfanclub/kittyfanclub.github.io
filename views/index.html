@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cryptokittes Fan Page</title>
+
+    <!-- Bootstrap core CSS
+    <link href="<%= static_path + "/bootstrap/css/theme/" + theme + "/bootstrap.css" %>" rel="stylesheet">
+-->
+    <!-- Custom styles for this template
+    <link href="<%= static_path + "/bootstrap/css/jumbotron-narrow.css" %>" rel="stylesheet">
+    <div id="cursor"><font size="6">t</font></div>
+    cursor:url(http://www.javascriptkit.com/dhtmltutors/cursor-hand.gif), auto;
+    cursor:url(views/cursor/hand.png), auto;
+    -->
+    <link href="css/header.css" type="text/css" rel="stylesheet" />
+    <link href="css/footer.css" type="text/css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <script id="headerScript" src="js/includes/header.js">index</script>
+
+    <h1>Unofficial Cryptokitties Fan Club</h1>
+    Want to do more with your crytokitties?  Want to see other crytokitties?<br>
+    We've got you covered!
+    This site allows you to:
+    <ol>
+      <li><a href='viewer.ejs'>View any crypto kitty</a>
+        <ul>
+          <li>View your own or other cryptokittes</li>
+          <li>Play with cryptokitties</li>
+        </ul>
+      </li>
+      <li><a href='family.ejs'>View a kitty family tree</a>
+        <ul>
+          <li>See a kitty's entire heritage</li>
+        </ul>
+      </li>
+      <li><a href='arena.ejs'>Have cryto kitty battles</a></li>
+        <ul>
+          <li>Battle with any 2 crypto kitties</li>
+          <li>(no cryptokitties were harmed in the making of this game)
+        </ul>
+      <li>More to come! Future features will be added, such as:</li>
+        <ul>Custom Kitty Battle Moves</ul>
+        <ul>Multiplayer Kitty Battles</ul>
+        <ul>Kitty Dance Party</ul>
+        <ul>Improved Kitty Play Time</ul>
+    </ol>
+
+
+    <script src="../static/jquery/jquery-1.11.3.min.js"></script>
+    <script src="js/kittyretriever.js"></script>
+    <script src="js/includes/footer.js"></script>
+    <script>
+      updateBackgroundKitty();
+    </script>
+  </body>
+</html>
