@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Kitty Play Time</title>
+
+    <link href="css/background.css" type="text/css" rel="stylesheet" />
+    <link href="css/header.css" type="text/css" rel="stylesheet" />
+    <link href="css/footer.css" type="text/css" rel="stylesheet" />
+    <link href="css/kitty_img.css" type="text/css" rel="stylesheet" />
+  </head>
+
+  <body onload="getSpectators('40', '#kittyImages');">
+    <script id="headerScript" src="js/includes/header.js">viewer</script>
+    <h2>Kitty Play Time</h2>
+    Kitty Id:<br>
+      <input type="text" name="kittyid" id="kittyid">
+      <br>
+    <button id="showKitty" type="button" class="btn btn-primary" onclick="showKitty('#kittyImages');">Here Kitty, Kitty, Kitty</button>
+    <button id="removeKitties" type="button" class="btn btn-primary" onclick="removeKitties('#kittyImages');">Kitties Go Bye bye </button>
+    <button onclick="silence();">Silence!</button>
+
+    <div id="kittyImages"></div>
+
+    <script src="<%= static_path + "/jquery/jquery-1.11.3.min.js" %>"></script>
+    <script src="<%= static_path + "/bootstrap/js/bootstrap.min.js" %>"></script>
+    <script src="../static/jquery/jquery-1.11.3.min.js"></script>
+    <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="js/sounds.js"></script>
+    <script src="js/movement.js"></script>
+    <script src="js/kittyretriever.js"></script>
+    <script src="js/test.js"></script>
+
+  </body>
+</html>

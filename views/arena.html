@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="css/header.css" type="text/css" rel="stylesheet" />
+  <link href="css/footer.css" type="text/css" rel="stylesheet" />
+  <link href="css/background.css" type="text/css" rel="stylesheet" />
+  <link href="css/kitty_img.css" type="text/css" rel="stylesheet" />
+</head>
+<body>
+  <script id="headerScript" src="js/includes/header.js">arena</script>
+  <form id='form1' style="position:relative">
+    <!-- https://loading.io/progress/ -->
+    <div style="position:absolute; top:0px; left:0px; z-index:31">
+      <h3>Kitty Kombat</h3>
+    </div>
+
+    <div id='lifeBar1' class="ldBar label-center" data-preset="bubble" data-value="100"
+    style="width:150;height:100;position:absolute; top:50px; left:0px; z-index:1"
+      data-pattern-size="100">
+    </div>
+    <div id='k1' style="position:absolute; top:150px; left:0px; z-index:2">
+      <canvas id="canvasKitty1" width="150" height="150" style="background-color:#FFFFFF"></canvas>
+    </div>
+    <div id='c1' style="position:absolute; top:300px; left:0px; z-index:3">
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="attackRound();">Attack!!</button>
+      <button id="resetBtn" type="button" class="btn btn-primary" onclick="resetArena();">Reset</button>
+      <button id="silenceBtn" type="button" class="btn btn-primary" onclick="silence();">Silence!!</button>
+    </div>
+
+    <div id='lifeBar2' class="ldBar label-center" data-preset="bubble" data-value="100"
+    style="width:150;height:100;position:absolute; top:50px; left:150px; z-index:10"
+      data-pattern-size="100">
+    </div>
+    <div id='k2' style="position:absolute; top:150px; left:150px; z-index:11">
+      <canvas id="canvasKitty2" width="150" height="150" style="background-color:#FFFFFF"></canvas>
+    </div>
+  </form>
+
+  <form id='form2' style="position:relative">
+    <div style="position:absolute; top:0px; left:400px; z-index:31">
+      <h3>Choose Catestant</h3>
+    </div>
+
+
+    <div id="kittyImages" style="position:absolute; top:35px; left:400px; z-index:31">
+    </div>
+    <div id='c1' style="position:absolute; top:200px; left:400px; z-index:32">
+      Kitty Id: <input type="text" name="kittyid" id="kittyid">
+      <br>
+      <button id="chooseKitty" type="button" class="btn btn-primary" onclick="showNewKitty('#kittyImages');">Here Kitty, Kitty, Kitty</button>
+      <button id="useKitty1" type="button" class="btn btn-primary" onclick="useInBattle('kittyImages', 0, canvasKitty1, '#lifeBar1');">Set Catestant 1</button>
+      <button id="useKitty2" type="button" class="btn btn-primary" onclick="useInBattle('kittyImages', 1, canvasKitty2, '#lifeBar2');">Set Catestant 2</button>
+    </div>
+  </form>
+
+  <link rel="stylesheet" type="text/css" href="css/loading-bar.css"/>
+  <script src="../static/jquery/jquery-1.11.3.min.js"></script>
+  <script src="../static/bootstrap/js/bootstrap.min.js"></script>
+  <script src="js/kittyretriever.js"></script>
+  <script src="js/battlekitty.js"></script>
+  <script src="js/canvasmovement.js"></script>
+  <script src="js/arena.js"></script>
+  <script src="js/sounds.js"></script>
+  <script type="text/javascript" src="js/utils/loading-bar.js"></script>
+
+  <script>
+    addControls('attackBtn', 'resetBtn');
+    $(document).ready(function() {
+        var image = new Image();
+        image.onload = function() {
+          addKitty('kitty', image, 0, canvasKitty1, '#lifeBar1');
+          addKitty('kitty', image, 1, canvasKitty2, '#lifeBar2');
+        };
+        image.src = "https://storage.googleapis.com/ck-kitty-image/0x06012c8cf97bead5deae237070f9587f8e7a266d/19504.svg";
+    });
+
+      /*
+      <div id='r1' style="position:absolute; top:150px; left:0px; z-index:100">
+        <canvas id="canvasRing" width="150" height="150" style="background-color:#FFFFFF"></canvas>
+      </div>
+
+      $(document).ready(function() {
+        drawRing('pics/ring.png', canvasRing);
+        var image = new Image();
+        image.onload = function() {
+          drawRing(image, canvasRing);
+        };
+        image.width=200;
+        image.height=200;
+        image.src = "pics/ring.png";
+    });
+    */
+    //drawRing('pics/ring.png', canvasRing);
+
+    </script>
+    <script src="js/includes/footer.js"></script>
+</body>
+</html>
