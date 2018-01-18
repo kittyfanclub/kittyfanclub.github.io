@@ -93,79 +93,9 @@ function getChildLevels(object, maxLevel, curLevel) {
   return retVal;
 }
 
-function positionAll(mainObject, canvasName, ancestorLevels, defaultWidth, defaultHeight, eleArray) {
-  var canvas = document.getElementById(canvasName);
 
-  // may need to resize canvas
-  var canvasHeight = canvas.height;
-  var canvasWidth = canvas.width;
 
-  if (ancestorLevels == undefined) {
-    ancestorLevels = 10;
-  }
-  if (defaultWidth == undefined) {
-    defaultWidth = 50;
-  }
-  if (defaultHeight == undefined) {
-    defaultHeight = 50;
-  }
-  var childLevels = 5;
 
-  var yOffsetFactor = computeYOffset(mainObject, ancestorLevels, childLevels);
-
-  // center main object
-  mainObject.width = defaultWidth;
-  mainObject.height = defaultHeight;
-  mainObject.left = canvasWidth / 2 - mainObject.width / 2;
-  mainObject.top = canvasHeight / 2 * yOffsetFactor;
-  console.log(canvasWidth + ':' + mainObject.left);
-
-  var reductionFactor = 0.70;
-
-  if (eleArray != undefined) {
-    eleArray.push(mainObject);
-  }
-
-  setAncestorPositions(mainObject, reductionFactor, 1, ancestorLevels, eleArray);
-
-  setSiblingPositions(mainObject, eleArray);
-
-  //reductionFactor = 1 - (0.07 * childLevels);
-  reductionFactor = 0.70;
-
-  // function layoutChildren(RootNode, width, height, reductionFactor) {
-  layoutChildren(mainObject, canvasWidth, canvasHeight, reductionFactor);
-  //setDescendantPositions(mainObject, reductionFactor, 1, childLevels, 1, canvasWidth, eleArray);
-  //setDescendantPositionsNewAlg(mainObject, eleArray, canvasWidth, canvasHeight);
-}
-
-function computeYOffset(mainObject, maxAncestorLevels, maxChildLevels) {
-  var actualParentLevels = mainObject.getAncestorLevels();
-  if (maxAncestorLevels < actualParentLevels) {
-    actualParentLevels = maxAncestorLevels;
-  }
-
-  var actualChildLevels = mainObject.getDescendantLevels();
-  if (maxChildLevels < actualChildLevels) {
-    actualChildLevels = maxChildLevels;
-  }
-
-  if (actualParentLevels == 0) {
-    if (actualChildLevels == 0) {
-      return 1;
-    }
-    else {
-      // no parents
-      return 0.01;
-    }
-  }
-
-  if (actualChildLevels == 0) {
-    return 1.75;
-  }
-
-  return 1;
-}
 
 function resizeCanvas(object, ancestorLevels, descendantLevels) {
   var reductionFactor = 0.9;

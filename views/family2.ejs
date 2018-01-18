@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Kitty Kombat</title>
+  </head>
+
+  <body>
+
+    <button id="chooseSelected" type="button" class="btn btn-primary" onclick="chooseSelected('myCanvas');">Center Selected Item</button>
+    <div id="canvasDiv" style="overflow:scroll; height:1000px;">
+      <canvas id="myCanvas" width="500" height="700"></canvas>
+    <div>
+
+    <script src="js/FamilyItem.js"></script>
+    <script src="js/CanvasObjects.js"></script>
+    <script src="js/FamilyController.js"></script>
+
+    <script>
+      var elem = document.getElementById('myCanvas'),
+          elemLeft = elem.offsetLeft,
+          elemTop = elem.offsetTop,
+          context = elem.getContext('2d');
+      var elements = [];
+
+
+          // Add event listener for `click` events.
+          elem.addEventListener('click',
+            function(event) {
+              handleObjectClicked(event);
+            }
+            , false);
+
+          // build generic family
+          var item = new FamilyItem('#05EFFF', 200, 15, 50, 50);
+          elements.push(item);
+          var ancestorLevels = 1;
+          var kidCount = 2;
+          buildFamily(item,elements, 0, ancestorLevels, kidCount);
+
+          // buildChildren(item, list, curLevel, maxLevels, maxKids) {
+          var childLevels = 2;
+          var children = 1;
+          buildChildren(item, elements, 0, childLevels, children);
+          positionAll(item, 'myCanvas', ancestorLevels);
+          repaint(elements);
+
+          function buildFamily(item, list, curLevel, maxLevels, kids) {
+            var mom = new FamilyItem('#0000EF', 20, 20, 50, 50);
+            var dad = new FamilyItem('#EF00EF', 40, 150, 50, 50);
+
+            if (curLevel < maxLevels) {
+              // add mom
+              list.push(mom);
+              item.setMom(mom);
+              mom.children.push(item);
+              buildFamily(mom, list, curLevel + 1, maxLevels, 0);
+
+              // add dad
+              list.push(dad);
+              item.setDad(dad);
+              dad.children.push(item);
+              buildFamily(dad, list, curLevel + 1, maxLevels, 0);
+            }
+
+            if (kids > 0 && curLevel == 0) {
+              // give parents more children
+              for (var i = 0; i < kids; i++) {
+                var kid = new FamilyItem('#0000EF', 20, 20, 50, 50);
+                kid.setMom(mom);
+                mom.children.push(kid);
+                list.push(kid);
+
+                kid = new FamilyItem('#00AAEF', 20, 20, 50, 50);
+                kid.setDad(dad);
+                dad.children.push(kid);
+                list.push(kid);
+              }
+            }
+            //mom.setChildren(momsKidsArr);
+            //dad.setChildren(dadsKidsArr);
+          }
+
+          function buildChildren(item, list, curLevel, maxLevels, maxKids) {
+            if (curLevel < maxLevels) {
+              var kids = maxKids;
+
+              var children = [];
+              for (var i = 0; i < kids; i++) {
+                  var kid = new FamilyItem('#0000EF', 20, 20, 50, 50);
+                  kid.setMom(item);
+                  list.push(kid);
+                  children.push(kid);
+                  buildChildren(kid, list, curLevel + 1, maxLevels, maxKids);
+              }
+              item.setChildren(children);
+            }
+          }
+    </script>
+  </body>
+</html>

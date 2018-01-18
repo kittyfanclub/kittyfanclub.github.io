@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Kitty Kombat</title>
+  </head>
+
+  <body>
+    <div id="canvasDiv" style="overflow:scroll; height:500px; width:700px;">
+      <canvas id="myCanvas" width="300" height="300"></canvas>
+    <div>
+    <script>
+      var elem = document.getElementById('myCanvas'),
+          elemLeft = elem.offsetLeft,
+          elemTop = elem.offsetTop,
+          context = elem.getContext('2d'),
+          elements = [];
+
+
+          // Add event listener for `click` events.
+          elem.addEventListener('click',
+            function(event) {
+              handleKittyClicked(event);
+            }
+            , false);
+
+          function handleKittyClicked (event) {
+
+            var selection = getClickedObject(event, 'canvasDiv', elements);
+            repaint(elements);
+          }
+
+          function getClickedObject(event, canvasName, elementArr) {
+            var x = event.pageX - elemLeft,
+                y = event.pageY - elemTop;
+            var canvas = document.getElementById(canvasName);
+            if (canvas != undefined) {
+              var scrollOffsetY = document.getElementById(canvasName).scrollTop;
+              var scrollOffsetX = document.getElementById(canvasName).scrollLeft;
+              y = y + scrollOffsetY;
+              x = x + scrollOffsetX;
+            }
+
+                        // Collision detection between clicked offset and element.
+            for (var i = 0, len = elements.length; i < len; i++) {
+              var element = elements[i];
+              element.selected = false;
+              var selection;
+                if (y > element.top && y < element.top + element.height
+                    && x > element.left && x < element.left + element.width) {
+
+                    selection = element;
+                    element.selected = true;
+                }
+              }
+              return element;
+            }
+
+            function repositionAll(kitty, ancestorLevels, descendantLevels) {
+              var reductionFactor = 0.9;
+              // compute how many ancestors at the top level
+              var topCount = 2 ^ ancestorLevels;
+              var topWidth = computeLevelWidth(topCount, ancestorLevels, reductionFactor);
+
+              // compute how many siblinings
+              var siblingCount = 0;
+              // loop thru parents
+
+              // get number of children
+              var siblingWidth = computeLevelWidth(siblingCount, 0);
+
+
+              // compute how many descendants at the bottom level
+              var bottomCount = getDescendantCount(kitty, descendantLevels);
+              var bottomWidth = computeLevelWidth(bottomCount, descendantLevels, reductionFactor);
+
+              var height = ancestorLevels + descendantLevels + 1;
+              var width = topWidth;
+              if (siblingWidth > width) {
+                width = siblingWidth;
+              }
+              if (bottomWidth > width) {
+                width = bottomWidth;
+              }
+
+              var kittyXPos = height/2;
+              var kittyYPos = width/2;
+              var kittyWidth = 100;
+              var kittyHeight = 100;
+
+              setAncestorPositions(kitty, kittyXPos, kittyYPos, kittyWidth, kittyHeight, reductionFactor, level, ancestorLevels);
+            }
+
+
+            function setAncestorPositions(kitty, kittyXPos, kittyYPos, kittyWidth, kittyHeight, reductionFactor, level, ancestorLevels) {
+              var dad = kitty.sire;
+              var mom = kitty.mom;
+
+              dad.xPos = kittyXPos - kittyWidth/2;
+              dad.yPos = kittyXPos - kittyHeight * 1.5;
+              dad.width = kittyWidth * reductionFactor^level;
+              dad.height = kittyHeight * reductionFactor^level;
+
+              mom.xPos = kittyXPos - kittyWidth/2;
+              mom.yPos = kittyXPos + kittyHeight * 1.5;
+              mom.width = kittyWidth * reductionFactor^level;
+              mom.height = kittyHeight * reductionFactor^level;
+
+              if (level <= ancestorLevels) {
+                // keep going
+                setAncestorPositions(dad, dad.xPos, dad.yPos, dad.width, dad.height, reductionFactor, level + 1, ancestorLevels);
+
+                setAncestorPositions(mom, mom.xPos, mom.yPos, mom.width, mom.height, reductionFactor, level + 1, ancestorLevels);
+              }
+
+            }
+
+
+            function getDescendantCount(kitty, descendantLevels) {
+              // loop thru descendants
+              var descendants = 0;
+              // for() {
+                if (descendantLevels == 0) {
+                  descendants = descendants + 1;
+                }
+                else {
+                  descendants = descendants + getDescendantCount(child, descendantLevels - 1);
+                }
+              // }
+              return descendants;
+            }
+
+          // Add element.
+          elements.push({
+              id: 'Ele1',
+              colour: '#05EFFF',
+              width: 150,
+              height: 100,
+              top: 20,
+              left: 15
+          });
+          elements.push({
+              id: 'Ele2',
+              colour: '#0000EF',
+              width: 150,
+              height: 100,
+              top: 210,
+              left: 115
+          });
+
+          repaint(elements);
+          // Render elements
+          function repaint(elements) {
+            for (var i = 0, len = elements.length; i < len; i++) {
+              var element = elements[i];
+
+              // draw selection box
+              if (element.selected != undefined && element.selected == true) {
+                context.fillStyle = '#000000';
+              }
+              else {
+                context.fillStyle = '#FFFFFF';
+              }
+              context.fillRect(element.left-1, element.top-1, element.width+2, element.height+2);
+
+              // draw element
+              context.fillStyle = element.colour;
+              context.fillRect(element.left, element.top, element.width, element.height);
+            }
+          }
+
+    </script>
+  </body>
+</html>

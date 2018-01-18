@@ -1,0 +1,106 @@
+function setSiblingPositions(mainObject, eleArray) {
+  var nodeDistX = 2;
+  var mom = mainObject.mom;
+  var dad = mainObject.dad;
+  var parentCount = 0;
+  var singleParent;
+  if (mom != undefined) {
+    parentCount ++;
+    singleParent = mom;
+  }
+  if (dad != undefined) {
+    parentCount ++;
+    singleParent = dad;
+  }
+
+  if (parentCount == 0) {
+    return;
+  }
+
+
+  var leftArray = [];
+  var rightArray = [];
+
+  if (parentCount == 1) {
+    // use single parent
+    var children = singleParent.children;
+    if (children != undefined) {
+      var end = children.length;
+      var mid = Math.round(end / 2);
+      leftArray = [];
+      rightArray = [];
+
+      // put 1/2 on left and 1/2 on right
+      for (var i = 0; i < mid; i++) {
+        leftArray.push(children[i]);
+      }
+      for (var i = mid; i < end; i++) {
+        rightArray.push(children[i]);
+      }
+    }
+  }
+  else if (parentCount == 2) {
+    // which one is on the left
+    if (mom.left < dad.left) {
+      leftArray = mom.children;
+      rightArray = dad.children;
+    }
+    else {
+      rightArray = mom.children;
+      leftArray = dad.children;
+    }
+
+  }
+
+  placeSiblings(mainObject, leftArray, eleArray, -1, nodeDistX);
+  placeSiblings(mainObject, rightArray, eleArray, 1, nodeDistX);
+}
+
+function placeSiblings(mainObject, nodeArray, eleArray, leftOrRight, nodeDistX) {
+
+  if (nodeArray != undefined && nodeArray.length > 0) {
+    var width = mainObject.width * 0.6;
+    var height = mainObject.height * 0.6;
+    var xOffset = (width + nodeDistX) * leftOrRight;
+    // how many fit on a row
+    var space = mainObject.left;
+    var maxPerRow = Math.round(space / (width + nodeDistX) - 1.5);
+    var rowNum = 0;
+    var colNum = 0;
+    var curPosX = 0;
+    var startPosX = 0;
+    if (leftOrRight > 0) {
+      // right of the main object
+      startPosX = mainObject.left + mainObject.width + nodeDistX + width / 2;
+    }
+    else {
+      // left of the main object
+      startPosX = mainObject.left - nodeDistX - width * 1.5;
+    }
+    curPosX = startPosX;
+
+    for (var i = 0; i < nodeArray.length; i++) {
+      var child = nodeArray[i];
+      if (child != mainObject) {  // don't move the chosen one
+        if (eleArray != undefined) {
+          eleArray.push(child);
+        }
+
+        child.left = curPosX;
+        child.top = mainObject.top + colNum * height * 1.2;
+        child.width = width;
+        child.height = height;
+        rowNum++;
+        if (rowNum >= maxPerRow) {
+          rowNum = 0;
+          colNum++;
+          curPosX = startPosX;
+        }
+        else {
+          curPosX = curPosX + xOffset;
+        }
+
+      }
+    }
+  }
+}
