@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script id="tracking" src="js/includes/tracking.js"></script>
+  <link href="css/header.css" type="text/css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/loading-bar.css"/>
+</head>
+<body>
+  <script id="headerScript" src="js/includes/header.js">arena</script>
+  <script type="text/javascript" src="js/utils/loading-bar.js"></script>
+  <script src="../static/jquery/jquery-1.11.3.min.js"></script>
+  <script src="js/test.js"></script>
+  <script src="js/battle/battleIncludes.js"></script>
+
+  <form id='form1' style="position:relative">
+    <!-- CAT 1 -->
+    <div id='lifeBar1' class="ldBar label-center" data-preset="bubble" data-value="100"
+    style="width:150;height:100;position:absolute; top:50px; left:0px; z-index:2"
+      data-pattern-size="100">
+    </div>
+    <div id='cat1' style="position:absolute; top:150px; left:0px; z-index:1">
+      <canvas id="canvasKitty1" width="250" height="250" style="background-color:#FFFFFF"></canvas>
+    </div>
+    <div id='attacks1' style="position:absolute; top:400px; left:0px; z-index:3">
+    </div>
+
+
+    <!-- CAT 2 -->
+    <div id='lifeBar2' class="ldBar label-center" data-preset="bubble" data-value="100"
+    style="width:150;height:100;position:absolute; top:50px; left:250px; z-index:12"
+      data-pattern-size="100">
+    </div>
+    <div id='cat2' style="position:absolute; top:150px; left:250px; z-index:11">
+      <canvas id="canvasKitty2" width="250" height="250" style="background-color:#FFFFFF"></canvas>
+    </div>
+    <div id='attacks2' style="position:absolute; top:400px; left:250px; z-index:13">
+    </div>
+  </form>
+    <!-- Battle Controls -->
+    <div id='c1' style="position:absolute; top:600px; left:0px; z-index:21">
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="attackRound();">Attack!!</button>
+      <button id="resetBtn" type="button" class="btn btn-primary" onclick="resetArena();">Reset</button>
+      <button id="silenceBtn" type="button" class="btn btn-primary" onclick="silence();">Silence!!</button>
+    </div>
+
+    <!-- Cat Loader -->
+    <div id='cat3' style="position:absolute; top:60px; left:550px; z-index:31">
+      <canvas id="kittyImages" width="600" height="250" style="background-color:#FFFFFF"></canvas>
+    </div>
+    <div id='loader' style="position:absolute; top:325px; left:550px; z-index:32">
+      Kitty Id: <input type="text" name="kittyid" id="kittyid">
+      <br>
+      <button id="chooseKitty" type="button" class="btn btn-primary" onclick="loadKittyAndDisplay();">Here Kitty, Kitty, Kitty</button>
+      <button id="useKitty1" type="button" class="btn btn-primary" onclick="useInBattle(1);">Set Catestant 1</button>
+      <button id="useKitty2" type="button" class="btn btn-primary" onclick="useInBattle(2);">Set Catestant 2</button>
+    </div>
+    <script>
+      initGame('canvasKitty1', 'canvasKitty2', 'kittyImages', 'attacks1', 'attacks2', '#lifeBar1', '#lifeBar2');
+      function loadKittyAndDisplay() {
+        var kittyId = document.getElementById('kittyid').value;
+        loadEntryCreature(kittyId);
+      }
+    </script>
+
+</body>
+</html>
