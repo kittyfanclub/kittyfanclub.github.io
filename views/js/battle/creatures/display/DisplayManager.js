@@ -24,7 +24,7 @@ var loaderCanvasInfo = new Object();
 var movesDiv1 = new Object();
 var movesDiv2 = new Object();
 
-var showImages = false;
+var showImages = true;
 
 
 function initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2) {
