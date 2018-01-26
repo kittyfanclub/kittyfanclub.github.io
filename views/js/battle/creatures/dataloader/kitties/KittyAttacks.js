@@ -67,7 +67,7 @@ function getPrimaryAttack(attackArray) {
   var attackDev = attackArray[3];
 
   //constructor(_name, _cooldown, _power, _critChance, _dev) {
-  var attackPower = getPower(10, attackModifier, 2);
+  var attackPower = getPower(10, attackModifier, 6);
   var critChance = getCritChance(attackCrit);
   var devPerc = getDevPerc(attackCrit, attackDev);
   var cooldown = 1;
@@ -82,8 +82,8 @@ function getPrimaryAttack(attackArray) {
     case 7: return new AttackMove("swipe", "swipe", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
     case 8: return new AttackMove("leap", "leap", cooldown, attackPower, critChance, devPerc, g_AniJumpTowardAttack);
     case 9: return new AttackMove("slam", "slam", cooldown, attackPower, critChance, devPerc, g_AniJumpTowardAttack);
-    case 10: return new AttackMove("tailwhip", "tail whip", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
-    case 11: return new AttackMove("tailthump", "tail thump", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    case 10: return new AttackMove("tailwhip", "tail whip", cooldown, attackPower, critChance, devPerc, g_AniSpinAttack);
+    case 11: return new AttackMove("tailthump", "tail thump", cooldown, attackPower, critChance, devPerc, g_AniSpinAttack);
     case 12: return new AttackMove("pounce", "pounce", cooldown, attackPower, critChance, devPerc, g_AniJumpTowardAttack);
     case 13: return new AttackMove("poke", "poke", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
     case 14: return new AttackMove("hump", "hump", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
@@ -99,14 +99,14 @@ function getSecondaryAttack(attackArray) {
   var attackDev = attackArray[3];
 
   //constructor(_name, _cooldown, _power, _critChance, _dev) {
-  var attackPower = getPower(20, attackModifier, 5);
+  var attackPower = getPower(20, attackModifier, 12);
   var critChance = getCritChance(attackCrit);
   var devPerc = getDevPerc(attackCrit, attackDev);
-  var cooldown = 2;
+  var cooldown = 3;
   switch (attackCode) {
     case 0: return new AttackMove("stare", "stare", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
     case 1: return new AttackMove("lookconfused", "look confused", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 2: return new AttackMove("steal", "steal", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 2: return new AttackMove("lookcute", "look cute", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
     case 3: return new AttackMove("chasetail", "chase tail", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
     case 4: return new AttackMove("taunt", "taunt", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
     case 5: return new AttackMove("lookdumb", "look dumb", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
@@ -145,29 +145,64 @@ function getDefense(dArray) {
   var dTime = dArray[2];
   var dDev = dArray[3];
 
-  var dPower = getPower(50, dModifier, 30);
-  var duration = getDefenseDuration(dTime);
+  var dPower = getPower(150, dModifier, 100);
+  var duration = 1;
   var devPerc = getDevPerc(dTime, dDev);
 
-  var cooldown = duration + 1;
   //   constructor(_name, _cooldown, _protectLevel, _dev, _duration)
   switch (dCode) {
-    case 0: return new DefenseMove("hideinbox", "hide in box", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 1: return new DefenseMove("blamedog", "blame dog", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 2: return new DefenseMove("runaway", "run away", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 3: return new DefenseMove("hideundersofa", "hide under sofa", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 4: return new DefenseMove("sleep", "sleep", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 5: return new DefenseMove("hideinbag", "hide in bag", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 6: return new DefenseMove("climbtree", "climb tree", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 7: return new DefenseMove("hideundercar", "hide under car", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 8: return new DefenseMove("gotolitterbox", "goto litter box", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 9: return new DefenseMove("dance", "dance", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 10: return new DefenseMove("vomit", "vomit", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 11: return new DefenseMove("hairball", "hairball", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 12: return new DefenseMove("imnotacat", "im not a cat", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 13: return new DefenseMove("ignore", "ignore", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 14: return new DefenseMove("fallofftable", "fall off table", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
-    case 15: return new DefenseMove("climbwall", "climb wall", cooldown, dPower, devPerc, duration, g_AniFallDownAttack);
+    case 0:
+      var img = new Image();
+      img.src = "pics/cardboardbox.png";
+      return new DefenseMove("hideinbox", "hide in box", duration + 1, dPower, devPerc, duration, g_AniHideAttack, img);
+    case 1:
+      return new DefenseMove("blamedog", "blame dog", duration + 1, dPower, devPerc, duration, g_AniFallDownAttack);
+    case 2:
+      duration = 2;
+      dPower = getPower(100, dModifier, 60);
+      return new DefenseMove("fleas", "fleas", duration + 1, dPower, devPerc, duration, g_AniFallDownAttack);
+    case 3:
+      var img = new Image();
+      img.src = "pics/sofa.png";
+      return new DefenseMove("hideundersofa", "hide under sofa", duration + 1, dPower, devPerc, duration, g_AniHideAttack, img);
+    case 4:
+      return new DefenseMove("sleep", "sleep", duration + 1, dPower, devPerc, duration, g_AniFallDownAttack);
+    case 5:
+      var img = new Image();
+      img.src = "pics/grocerybag.png";
+      return new DefenseMove("hideinbag", "hide in bag", duration + 1, dPower, devPerc, duration, g_AniHideAttack, img);
+    case 6:
+      return new DefenseMove("climbtree", "climb tree", duration + 1, dPower, devPerc, duration, g_AniFallDownAttack);
+    case 7:
+      var img = new Image();
+      img.src = "pics/car.png";
+      return new DefenseMove("hideundercar", "hide under car", duration + 1, dPower, devPerc, duration, g_AniHideAttack, img);
+    case 8:
+      var img = new Image();
+      img.src = "pics/litterbox.png";
+      return new DefenseMove("gotolitterbox", "goto litter box", duration + 1, dPower, devPerc, duration, g_AniGotoAttack, img);
+    case 9:
+      duration = 2;
+      dPower = getPower(100, dModifier, 80);
+      return new DefenseMove("dance", "dance", duration + 1, dPower, devPerc, duration, g_AniFallDownAttack);
+    case 10:
+      duration = 5;
+      dPower = getPower(50, dModifier, 20);
+      return new DefenseMove("vomit", "vomit", duration + 2, dPower, devPerc, duration, g_AniFallDownAttack);
+    case 11:
+      duration = 3;
+      dPower = getPower(80, dModifier, 30);
+      return new DefenseMove("hairball", "hairball", duration + 2, dPower, devPerc, duration, g_AniFallDownAttack);
+    case 12:
+      var img = new Image();
+      img.src = "pics/dog.png";
+      return new DefenseMove("imnotacat", "im not a cat", duration + 1, dPower, devPerc, duration, g_AniHideAttack, img);
+    case 13:
+      return new DefenseMove("runaway", "run away", duration + 1, dPower, devPerc, duration, g_AniRunAway);
+    case 14:
+      return new DefenseMove("falldown", "fall down", duration + 1, dPower, devPerc, duration, g_AniFallDownAttack);
+    case 15:
+      return new DefenseMove("climbwall", "climb wall", duration + 1, dPower, devPerc, duration, g_AniFallDownAttack);
   }
   return null;
 }
@@ -175,7 +210,13 @@ function getDefense(dArray) {
 
 function getPower(base, modifier, max) {
   // base +- max
-  return base +  Math.round((modifier - 7) / (8 / max));
+  // modifier is a value between 0 and 15
+
+  // offset will be between -1 and 1
+  var offset = modifier * 2 / 15 - 1;
+  var factor = offset * max;
+
+  return Math.round(base +  factor);
 }
 
 function getCritChance(attackCrit) {

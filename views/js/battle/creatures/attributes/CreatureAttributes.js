@@ -4,4 +4,8 @@ class CreatureAttributes {
     this.life = _life;
     this.baseDefense = _baseDefense;
   }
+  clone() {
+    var clone = new CreatureAttributes(this.life, this.baseDefense);
+    return clone;
+  }
 }

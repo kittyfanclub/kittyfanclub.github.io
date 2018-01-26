@@ -61,7 +61,7 @@ function getGeneticCodeAsynch(id, catData, callback) {
   var idHexNum = id.toString(16);
   var idHex = idHexNum + "";
   while (idHex.length < 6) {
-    idHex = "0" + idHex; 
+    idHex = "0" + idHex;
   }
   var url = "https://api.infura.io/v1/jsonrpc/mainnet/eth_call?params=%5B%7B%22to%22%3A%220x06012c8cf97BEaD5deAe237070F9587f8E7A266d%22%2C%20%22data%22%3A%220xe98b7f4d0000000000000000000000000000000000000000000000000000000000"+idHex+"%22%7D%2C%22latest%22%5D";
   var req = $.getJSON(url, function(data) {
@@ -177,7 +177,7 @@ function getCreatureLife(genetics) {
   var m2 = (getGeneticSetElement(set, 1) + 1);
   var modifier = (m1 * m2) % 16;
 
-  return getPower(100, modifier, 10);
+  return getPower(100, modifier, 20);
 }
 
 function getCreatureBaseDefense(genetics) {
@@ -186,7 +186,7 @@ function getCreatureBaseDefense(genetics) {
   var m2 = (getGeneticSetElement(set, 2) + 1);
   var modifier = (m1 * m2) % 16;
 
-  return getPower(100, modifier, 10);
+  return getPower(100, modifier, 20);
 }
 
 

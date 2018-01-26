@@ -24,7 +24,7 @@ var loaderCanvasInfo = new Object();
 var movesDiv1 = new Object();
 var movesDiv2 = new Object();
 
-var showImages = true;
+var showImages = false;
 
 
 function initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2) {
@@ -177,11 +177,13 @@ function refreshScreenAfterAttack(turnNumber) {
   showLifeBar(battleCanvasInfo2);
 }
 function paintLoaderCanvasDefault(canvasInfo) {
-  if (canvasInfo.creature != undefined &&  (showImages == true)) {
+  if (canvasInfo.creature != undefined) {
     var creatureDisplay = canvasInfo.creature.display;
     var context = canvasInfo.context;
     context.clearRect(0, 0, canvasInfo.canvas.width, canvasInfo.canvas.height);
-    context.drawImage(creatureDisplay.img, 0, 0, creatureDisplay.height, creatureDisplay.width);
+    if (showImages == true) {
+      context.drawImage(creatureDisplay.img, 0, 0, creatureDisplay.height, creatureDisplay.width);
+    }
 
     // show attributes
     var creature = canvasInfo.creature;
@@ -266,8 +268,8 @@ function animateAttack(parentCallback, move1, move2) {
   }
 
   if (showImages == true) {
-    attack1(battleCanvasInfo1, attackTime, callback);
-    attack2(battleCanvasInfo2, attackTime, callback);
+    attack1(battleCanvasInfo1, attackTime, callback, move1);
+    attack2(battleCanvasInfo2, attackTime, callback, move2);
   }
   else {
     // just do callbacks

@@ -53,6 +53,11 @@ function aniRunAttack(canvasInfo, attackTime, callbackFunction) {
   aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, 1, 0);
 }
 
+var g_AniRunAway =
+function aniRunAway(canvasInfo, attackTime, callbackFunction) {
+  aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, -0.25, 0);
+}
+
 var g_AniJumpUpAttack =
 function aniRunAttack(canvasInfo, attackTime, callbackFunction) {
   aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, 0, 1);
@@ -63,9 +68,81 @@ function aniRunAttack(canvasInfo, attackTime, callbackFunction) {
   aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, 0, 0);
 }
 
-// fix me
-var g_AniFallDownAttack = g_AniStationaryAttack;
+var g_AniGotoAttack =
+function aniHideAttack(canvasInfo, attackTime, callbackFunction, attack) {
+  // need to store the hiding place image
+  var hidingPlace = null;
 
+  let start = Date.now();
+  var canvas = canvasInfo.canvas;
+  var context = canvasInfo.context;
+  var image = canvasInfo.creature.display.img;
+  var defImageXOff = 0;
+  var width = canvasInfo.creature.display.width;
+  var height = canvasInfo.creature.display.height;
+  var hidingImg = attack.images;
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  // draw goto place
+  if (hidingImg != undefined) {
+    context.drawImage(hidingImg, defImageXOff, 0, height, width);
+  }
+  context.drawImage(image, defImageXOff, 0, height, width);
+
+
+  let totaltime = attackTime;
+
+  // wait until time is done
+  let timer = setInterval(function() {
+    let timePassed = Date.now() - start;
+    if (timePassed > totaltime) {
+      clearInterval(timer);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(image, 0, 0, height, width);
+      callbackFunction(canvasInfo);
+    }
+
+  }, 100);
+}
+
+var g_AniHideAttack =
+function aniHideAttack(canvasInfo, attackTime, callbackFunction, attack) {
+  // need to store the hiding place image
+  var hidingPlace = null;
+
+  let start = Date.now();
+  var canvas = canvasInfo.canvas;
+  var context = canvasInfo.context;
+  var image = canvasInfo.creature.display.img;
+  var defImageXOff = 0;
+  var width = canvasInfo.creature.display.width;
+  var height = canvasInfo.creature.display.height;
+  var hidingImg = attack.images;
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(image, defImageXOff, 0, height, width);
+
+  // draw hiding place
+  if (hidingImg != undefined) {
+    context.drawImage(hidingImg, defImageXOff, 0, height, width);
+  }
+
+  let totaltime = attackTime;
+
+  // wait until time is done
+  let timer = setInterval(function() {
+    let timePassed = Date.now() - start;
+    if (timePassed > totaltime) {
+      clearInterval(timer);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      context.drawImage(image, 0, 0, height, width);
+      callbackFunction(canvasInfo);
+    }
+
+  }, 100);
+}
+var g_AniFallDownAttack = g_AniStationaryAttack;
+var g_AniSpinAttack = g_AniStationaryAttack;
 
 function aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, xPercent, yPercent) {
   let start = Date.now();

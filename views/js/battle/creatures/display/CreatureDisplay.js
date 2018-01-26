@@ -7,4 +7,9 @@ class CreatureDisplay {
     this.imgAddress = _imgAddress;
     this.img = _img;
   }
+
+  clone() {
+    var clone = new CreatureDisplay(this.left, this.top, this.width, this.height, this.imgAddress, this.img);
+    return clone;
+  }
 }

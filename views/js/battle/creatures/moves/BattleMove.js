@@ -1,11 +1,14 @@
+var g_instanceId = 1;
 class BattleMove {
-  constructor(_id, _name, _cooldown, _animation) {
+  constructor(_id, _name, _cooldown, _animation, _images) {
     // static attributes
+    this.instanceId = g_instanceId++;
     this.id = _id;
     this.name = _name;
     this.animation = _animation;
     this.cooldown = _cooldown;
     this.lastUsed = -1;
+    this.images = _images;
   }
 
   canUse(turnNumber) {
