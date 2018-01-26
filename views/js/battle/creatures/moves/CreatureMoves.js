@@ -16,4 +16,19 @@ class CreatureMoves {
       }
     }
   }
+
+  clone() {
+    var attackMoves = [];
+    var defenseMoves = [];
+
+    for (var i = 0; i < this.attackMoves.length; i++) {
+      attackMoves.push(this.attackMoves[i].clone());
+    }
+    for (var i = 0; i < this.defenseMoves.length; i++) {
+      defenseMoves.push(this.defenseMoves[i].clone());
+    }
+    var clone = new CreatureMoves(attackMoves, defenseMoves);
+    return clone;
+  }
+
 }
