@@ -21,13 +21,16 @@
 var battleCanvasInfo1 = new Object();
 var battleCanvasInfo2 = new Object();
 var loaderCanvasInfo = new Object();
+var battleControls = new Object();
 var movesDiv1 = new Object();
 var movesDiv2 = new Object();
 
-var showImages = false;
+var showImages = true;
 
 
-function initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2) {
+function initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2, _attackBtn) {
+  battleControls.attackBtn = document.getElementById(_attackBtn);
+
   battleCanvasInfo1.canvasName = _battleCanvas1;
   battleCanvasInfo1.canvas = document.getElementById(_battleCanvas1);
   battleCanvasInfo1.context = battleCanvasInfo1.canvas.getContext("2d");
@@ -50,6 +53,7 @@ function initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1,
   loaderCanvasInfo.canvas = document.getElementById(_loaderCanvas);
   loaderCanvasInfo.context = loaderCanvasInfo.canvas.getContext("2d");
   loaderCanvasInfo.flip = false;
+
 }
 
 // set creatures
@@ -278,4 +282,24 @@ function animateAttack(parentCallback, move1, move2) {
   }
 }
 
-// execute attack
+function disableAttackBtn(disable) {
+  battleControls.attackBtn.disabled = disable;
+}
+function displayEndGame(dead1, dead2) {
+  var callback = function() {
+    alert('done');
+  }
+  var time = 5000;
+  if (dead1) {
+    aniLoser(battleCanvasInfo1, time, callback);
+  }
+  else {
+    aniWinner(battleCanvasInfo1, time, callback);
+  }
+  if (dead2) {
+    aniLoser(battleCanvasInfo2, time, callback);
+  }
+  else {
+    aniWinner(battleCanvasInfo2, time, callback);
+  }
+}
