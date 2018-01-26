@@ -10,5 +10,6 @@ document.write("<script src=\"" + rootDir + "creatures/BattleCreature.js" + "\">
 document.write("<script src=\"" + rootDir + "creatures/dataloader/kitties/KittyAttacks.js" + "\"></script>");
 document.write("<script src=\"" + rootDir + "creatures/dataloader/kitties/KittyDataLoader.js" + "\"></script>");
 document.write("<script src=\"" + rootDir + "creatures/display/animation/AttackAnimations.js" + "\"></script>");
+document.write("<script src=\"" + rootDir + "creatures/display/animation/EndGameAnimation.js" + "\"></script>");
 document.write("<script src=\"" + rootDir + "damage/BattleDamage.js" + "\"></script>");
 document.write("<script src=\"" + rootDir + "BattleGame.js" + "\"></script>");

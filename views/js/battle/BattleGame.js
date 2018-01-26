@@ -3,13 +3,21 @@ var battleGameCreature1;
 var battleGameCreature2;
 var g_battleRound = 1;
 
-function initGame(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2) {
-  initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2);
+function initGame(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2, _attackBtn) {
+  initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2, _attackBtn);
+  disableAttackBtn(true);
 }
 
-function resetBattle() {
-  g_battleRound = 1;
+function resetArena() {
+  if (battleGameCreature1 != undefined && battleGameCreature2 != undefined) {
+    g_battleRound = 1;
+    battleGameCreature1.startBattle();
+    battleGameCreature2.startBattle();
+    refreshScreenAfterAttack(0);
+    disableAttackBtn(false);
+  }
 }
+
 
 
 function loadEntryCreature(id) {
@@ -31,6 +39,7 @@ function useInBattle(number) {
       battleGameCreature2 = loaderCanvasInfo.creature.clone();
       setBattleCreature2(battleGameCreature2);
     }
+    resetArena();
   }
 }
 function attackRound() {
@@ -60,13 +69,33 @@ function attackRound() {
     refreshScreenAfterAttack(g_battleRound);
 
     // check for death
+    deadCheck();
 
   }
   // animate attack
   animateAttack(animateComplete, move1, move2);
 
 }
+function dead() {
+  battleGameCreature1.battle.currentLife = -1;
+  deadCheck();
+}
 
+function deadCheck() {
+  var dead1 = false;
+  var dead2 = false;
+  if (battleGameCreature1.battle.currentLife <= 0) {
+    dead1 = true;
+  }
+  if (battleGameCreature2.battle.currentLife <= 0) {
+    dead2 = true;
+  }
+
+  if (dead1 || dead2) {
+    displayEndGame(dead1, dead2);
+    disableAttackBtn(true);
+  }
+}
 
 /*
 function attackRound() {
