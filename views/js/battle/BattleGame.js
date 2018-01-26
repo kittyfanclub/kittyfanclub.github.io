@@ -24,12 +24,12 @@ function loadEntryCreature(id) {
 function useInBattle(number) {
   if (loaderCanvasInfo.creature != undefined) {
     if (number == 1) {
-      battleGameCreature1 = loaderCanvasInfo.creature;
-      setBattleCreature1(loaderCanvasInfo.creature);
+      battleGameCreature1 = loaderCanvasInfo.creature.clone();
+      setBattleCreature1(battleGameCreature1);
     }
     else if (number == 2) {
-      battleGameCreature2 = loaderCanvasInfo.creature;
-      setBattleCreature2(loaderCanvasInfo.creature);
+      battleGameCreature2 = loaderCanvasInfo.creature.clone();
+      setBattleCreature2(battleGameCreature2);
     }
   }
 }
