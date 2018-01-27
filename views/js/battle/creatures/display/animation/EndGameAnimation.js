@@ -1,6 +1,9 @@
 var g_winner1Img = new Image();
 g_winner1Img.src = "pics/winner1.png";
 
+var g_winner_rev1Img = new Image();
+g_winner1Img.src = "pics/renniw1.png";
+
 var g_loser1Img = new Image();
 g_loser1Img.src = "pics/loser1.png";
 
