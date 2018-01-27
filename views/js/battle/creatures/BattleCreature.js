@@ -10,6 +10,7 @@ class BattleCreature {
 
   startBattle() {
     this.battle = new CreatureBattleData(this.attributes.life);
+    this.moves = this.moves.clone();
   }
 
   clone() {

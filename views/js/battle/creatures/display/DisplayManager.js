@@ -175,6 +175,8 @@ function getSelectedMove(creatureNumber) {
 }
 
 function refreshScreenAfterAttack(turnNumber) {
+  paintBattleCanvasDefault(battleCanvasInfo1);
+  paintBattleCanvasDefault(battleCanvasInfo2);
   showBattleMoves(battleCanvasInfo1, turnNumber);
   showBattleMoves(battleCanvasInfo2, turnNumber);
   showLifeBar(battleCanvasInfo1);
