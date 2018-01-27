@@ -2,17 +2,32 @@ var g_winner1Img = new Image();
 g_winner1Img.src = "pics/winner1.png";
 
 var g_winner_rev1Img = new Image();
-g_winner1Img.src = "pics/renniw1.png";
+g_winner_rev1Img.src = "pics/renniw1.png";
 
 var g_loser1Img = new Image();
 g_loser1Img.src = "pics/loser1.png";
 
-function aniWinner(canvasInfo, animationTime, callbackFunction) {
-  aniDropImage(canvasInfo, animationTime, callbackFunction, g_winner1Img );
+var g_loser_rev1Img = new Image();
+g_loser_rev1Img.src = "pics/loser1.png";
+
+function aniWinner(canvasInfo, animationTime, callbackFunction, reverse) {
+  if (reverse == true) {
+    aniDropImage(canvasInfo, animationTime, callbackFunction, g_winner_rev1Img );
+
+  }
+  else {
+    aniDropImage(canvasInfo, animationTime, callbackFunction, g_winner1Img );
+  }
 }
 
-function aniLoser(canvasInfo, animationTime, callbackFunction) {
-  aniDropImage(canvasInfo, animationTime, callbackFunction, g_loser1Img );
+function aniLoser(canvasInfo, animationTime, callbackFunction, reverse) {
+  if (reverse == true) {
+    aniDropImage(canvasInfo, animationTime, callbackFunction, g_loser_rev1Img );
+
+  }
+  else {
+    aniDropImage(canvasInfo, animationTime, callbackFunction, g_loser1Img );
+  }
 }
 
 function aniDropImage(canvasInfo, animationTime, callbackFunction, dropImg) {

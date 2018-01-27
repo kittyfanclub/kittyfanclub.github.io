@@ -291,15 +291,15 @@ function displayEndGame(dead1, dead2) {
   }
   var time = 5000;
   if (dead1) {
-    aniLoser(battleCanvasInfo1, time, callback);
+    aniLoser(battleCanvasInfo1, time, callback, true);
   }
   else {
-    aniWinner(battleCanvasInfo1, time, callback);
+    aniWinner(battleCanvasInfo1, time, callback, true);
   }
   if (dead2) {
-    aniLoser(battleCanvasInfo2, time, callback);
+    aniLoser(battleCanvasInfo2, time, callback, false);
   }
   else {
-    aniWinner(battleCanvasInfo2, time, callback);
+    aniWinner(battleCanvasInfo2, time, callback, false);
   }
 }
