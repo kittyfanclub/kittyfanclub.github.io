@@ -111,8 +111,8 @@ function getSecondaryAttack(attackArray) {
     case 4: return new AttackMove("taunt", "taunt", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
     case 5: return new AttackMove("lookdumb", "look dumb", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
     case 6: return new AttackMove("tease", "tease", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 7: return new AttackMove("groom", "groom", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
-    case 8: return new AttackMove("sniffbutt", "sniff butt", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    case 7: return new AttackMove("sniffbutt", "sniff butt", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    case 8: return new AttackMove("groom", "groom", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
     case 9: return new AttackMove("spilllitter", "spill litter", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
     case 10: return new AttackMove("knockofftable", "knock off table", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
     case 11: return new AttackMove("chaseball", "chase ball", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
