@@ -8,7 +8,7 @@ var g_loser1Img = new Image();
 g_loser1Img.src = "pics/loser1.png";
 
 var g_loser_rev1Img = new Image();
-g_loser_rev1Img.src = "pics/loser1.png";
+g_loser_rev1Img.src = "pics/resol1.png";
 
 function aniWinner(canvasInfo, animationTime, callbackFunction, reverse) {
   if (reverse == true) {
