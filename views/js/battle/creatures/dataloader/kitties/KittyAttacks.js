@@ -1,4 +1,5 @@
-function buildAttackMoves(genetics, primaryAttack1, primaryAttack2, secondaryAttack, specialAttacks) {
+// This code is licensed under the GNU General Public License found at: kittyfanclub.github.io/license.txt
+function buildAttackMoves(genetics, primaryAttack1, primaryAttack2, secondaryAttack, tertiaryAttack) {
   var attackArray = [];
 
   // primary attacks
@@ -21,10 +22,18 @@ function buildAttackMoves(genetics, primaryAttack1, primaryAttack2, secondaryAtt
 
   var attackSet3 = getGeneticSet(genetics, secondaryAttack);
   var codes3 = getAttackCodes(attackSet3);
-  var attack3 = getSecondaryAttack(codes1);
+  var attack3 = getSecondaryAttack(codes3);
   if (attack3 != undefined) {
     attackArray.push(attack3.clone());
   }
+
+  var attackSet4 = getGeneticSet(genetics, tertiaryAttack);
+  var codes4 = getAttackCodes(attackSet4);
+  var attack4 = getTertiaryAttack(codes4);
+  if (attack4 != undefined) {
+    attackArray.push(attack4.clone());
+  }
+
 
   return attackArray;
 }
@@ -67,27 +76,43 @@ function getPrimaryAttack(attackArray) {
   var attackDev = attackArray[3];
 
   //constructor(_name, _cooldown, _power, _critChance, _dev) {
-  var attackPower = getPower(10, attackModifier, 6);
+  var attackPower = getPower(10, attackModifier, 4);
   var critChance = getCritChance(attackCrit);
   var devPerc = getDevPerc(attackCrit, attackDev);
   var cooldown = 1;
   switch (attackCode) {
+    // ok
     case 0: return new AttackMove("claw", "claw", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    // ok
     case 1: return new AttackMove("scratch", "scratch", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    // ok
     case 2: return new AttackMove("bite", "bite", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    // ok
     case 3: return new AttackMove("tackle", "tackle", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    // ok
     case 4: return new AttackMove("kick", "kick", cooldown, attackPower, critChance, devPerc, g_AniJumpTowardAttack);
-    case 5: return new AttackMove("spit", "spit", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    // ok
+    case 5: return new AttackMove("nip", "nip", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    // ok
     case 6: return new AttackMove("nibble", "nibble", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    // ok
     case 7: return new AttackMove("swipe", "swipe", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    // good
     case 8: return new AttackMove("leap", "leap", cooldown, attackPower, critChance, devPerc, g_AniJumpTowardAttack);
+    // ok
     case 9: return new AttackMove("slam", "slam", cooldown, attackPower, critChance, devPerc, g_AniJumpTowardAttack);
+    // good
     case 10: return new AttackMove("tailwhip", "tail whip", cooldown, attackPower, critChance, devPerc, g_AniSpinAttack);
-    case 11: return new AttackMove("tailthump", "tail thump", cooldown, attackPower, critChance, devPerc, g_AniSpinAttack);
+    // good
+    case 11: return new AttackMove("tailthump", "tail thump", cooldown, attackPower, critChance, devPerc, g_AniCartwheelAttack);
+    // good
     case 12: return new AttackMove("pounce", "pounce", cooldown, attackPower, critChance, devPerc, g_AniJumpTowardAttack);
+    // ok
     case 13: return new AttackMove("poke", "poke", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
-    case 14: return new AttackMove("hump", "hump", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
-    case 15: return new AttackMove("lick", "lick", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    // good
+    case 14: return new AttackMove("windmill", "windmill", cooldown, attackPower, critChance, devPerc, g_AniFastSpin);
+    // ok
+    case 15: return new AttackMove("swat", "swat", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
   }
   return null;
 }
@@ -95,29 +120,82 @@ function getPrimaryAttack(attackArray) {
 function getSecondaryAttack(attackArray) {
   var attackCode = attackArray[0];
   var attackModifier = attackArray[1];
+  var attackCrit = attackArray[2] * 2;
+  var attackDev = attackArray[3];
+
+
+  //class LingeringAttackMove extends BattleMove {
+  //constructor(_id, _name, _cooldown, _power, _lingeringEffectName, _lingeringEffectChance, _lingeringEffectDamage, _dev, _animation, _images) {
+
+  //constructor(_name, _cooldown, _power, _critChance, _dev) {
+  var attackPower = getPower(14, attackModifier, 6);
+  var lingeringChance = getCritChance(attackCrit, 30);
+  var devPerc = getDevPerc(attackCrit, attackDev);
+  var cooldown = 3;
+
+  var lingeringName = "bleeding";
+  var lingeringDamage = 2;
+
+  switch (attackCode) {
+    // all bad
+    case 0: return new LingeringAttackMove("aikido", "aikido", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 1:
+      lingeringName = "hurt back";
+      return new LingeringAttackMove("judo", "judo", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 2:
+      lingeringName = "ninja terror";
+      return new LingeringAttackMove("ninjutsu", "ninjutsu", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 3:
+      lingeringName = "bad smell";
+      return new LingeringAttackMove("sumo", "sumo", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 4: return new LingeringAttackMove("taekwondo", "taekwondo", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 5: return new LingeringAttackMove("mukna", "mukna", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 6: return new LingeringAttackMove("muaythai", "muay thai", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 7:
+      lingeringName = "broken nose";
+      return new LingeringAttackMove("kravmaga", "krav maga", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniRunAttack);
+    case 8: return new LingeringAttackMove("hapkido", "hapkido", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniRunAttack);
+    case 9:
+      lingeringName = "broken jaw";
+      return new LingeringAttackMove("boxing", "boxing", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 10: return new LingeringAttackMove("hungga", "hung ga", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 11: return new LingeringAttackMove("cuongnhu", "cuong nhu", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 12: return new LingeringAttackMove("bando", "bando", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 13: return new LingeringAttackMove("khridoli", "khridoli", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 14: return new LingeringAttackMove("limalama ", "limalama", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 15: return new LingeringAttackMove("bultong", "bultong", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+  }
+  return null;
+}
+
+
+function getTertiaryAttack(attackArray) {
+  var attackCode = attackArray[0];
+  var attackModifier = attackArray[1];
   var attackCrit = attackArray[2];
   var attackDev = attackArray[3];
 
   //constructor(_name, _cooldown, _power, _critChance, _dev) {
-  var attackPower = getPower(20, attackModifier, 12);
+  var attackPower = getPower(18, attackModifier, 6);
   var critChance = getCritChance(attackCrit);
   var devPerc = getDevPerc(attackCrit, attackDev);
-  var cooldown = 3;
+  var cooldown = 4;
   switch (attackCode) {
-    case 0: return new AttackMove("stare", "stare", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 1: return new AttackMove("lookconfused", "look confused", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 2: return new AttackMove("lookcute", "look cute", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 3: return new AttackMove("chasetail", "chase tail", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 4: return new AttackMove("taunt", "taunt", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 5: return new AttackMove("lookdumb", "look dumb", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 6: return new AttackMove("tease", "tease", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 7: return new AttackMove("groom", "groom", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
-    case 8: return new AttackMove("sniffbutt", "sniff butt", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
-    case 9: return new AttackMove("spilllitter", "spill litter", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 10: return new AttackMove("knockofftable", "knock off table", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 11: return new AttackMove("chaseball", "chase ball", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 12: return new AttackMove("chasenothing", "chase nothing", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
-    case 13: return new AttackMove("lookwise", "look wise", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    // all bad
+    case 0: return new AttackMove("purr", "purr", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 1: return new AttackMove("growl", "growl", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 2: return new AttackMove("hiss", "hiss", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 3: return new AttackMove("meow", "meow", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 4: return new AttackMove("wagtailfast", "wag tail fast", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 5: return new AttackMove("ignore", "ignore", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 6: return new AttackMove("crouch", "crouch", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 7: return new AttackMove("stare", "stare", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    case 8: return new AttackMove("groom", "groom", cooldown, attackPower, critChance, devPerc, g_AniRunAttack);
+    case 9: return new AttackMove("howl", "howl", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 10: return new AttackMove("blink", "blink", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 11: return new AttackMove("cat", "cat", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 12: return new AttackMove("catcat", "catcat", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
+    case 13: return new AttackMove("catcatcat", "catcatcat", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
     case 14: return new AttackMove("lookangry", "look angry", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
     case 15: return new AttackMove("layinsun", "lay in sun", cooldown, attackPower, critChance, devPerc, g_AniStationaryAttack);
   }
@@ -207,6 +285,33 @@ function getDefense(dArray) {
   return null;
 }
 
+function buildHealMoves(genetics, healMove) {
+  var healArray = [];
+
+  // primary defense
+  var healSet = getGeneticSet(genetics, healMove);
+  var codes = getAttackCodes(healSet);
+  var heal = getHeal(codes);
+  if (heal != undefined) {
+    healArray.push(heal.clone());
+  }
+
+  return healArray;
+}
+
+function getHeal(dArray) {
+  var dCode = dArray[0];
+  var dModifier = dArray[1];
+  var dTime = dArray[2];
+  var dDev = dArray[3];
+
+  var dPower = getPower(20, dModifier, 10);
+  var cooldown = 5;
+  var devPerc = getDevPerc(dTime, dDev);
+
+  // TODO: build lick animation
+  return new HealMove("lickwounds", "lick wounds", cooldown, dPower, devPerc, g_AniStationaryAttack);
+}
 
 function getPower(base, modifier, max) {
   // base +- max
@@ -219,9 +324,12 @@ function getPower(base, modifier, max) {
   return Math.round(base +  factor);
 }
 
-function getCritChance(attackCrit) {
-  // number between 5 and 20
-  return attackCrit + 5;
+function getCritChance(attackCrit, offset) {
+  if (offset == undefined) {
+    offset = 5;
+  }
+  // number between offset and 15 + offset
+  return attackCrit + offset;
 }
 
 function getDevPerc(attackCrit, attackDev) {

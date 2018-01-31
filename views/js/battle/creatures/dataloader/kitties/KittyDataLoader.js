@@ -1,3 +1,4 @@
+// This code is licensed under the GNU General Public License found at: kittyfanclub.github.io/license.txt
 function getBattleCat(id) {
   var json = getBattleCatJson(id);
   var kitty = buildKittyFromObject(json);
@@ -141,7 +142,14 @@ function getBattleCatFromCryptoKittyDex(id) {
 
 
 function buildKittyFromObject(_buildData) {
+  // the kitty attributes are determined based on their genetic code,
+  // the code is a data set of 15 groups of 4 numbers, each number is base32
+  // although most of the data seems to have values of 16 (f) or less
+  // a sample genetic code for kitty 1 is:
+  // 5ad2 b318 e672 4ce4 b929 0146 5318 8472 1ad1 8c63 298a 5308 a55a d6b6 b58d
   var name = buildCreatureName(_buildData);
+
+
   var attributes = buildCreatureAttributes(_buildData);
   var display = buildCreatureDisplay(_buildData);
   var moves = buildCreatureMoves(_buildData);
@@ -172,21 +180,31 @@ function buildCreatureAttributes(_buildData) {
 }
 
 function getCreatureLife(genetics) {
+  // get code from genetics data set 12
   var set = getGeneticSet(genetics, 11);
+  // get element 0 in base 16 and add 1
   var m1 = (getGeneticSetElement(set, 0) + 1);
+  // get element 1 in base 16 and add 1
   var m2 = (getGeneticSetElement(set, 1) + 1);
-  var modifier = (m1 * m2) % 16;
+  // use the product and covert it to a number between 1 and 10
+  var modifier = (m1 * m2) % 10;
 
-  return getPower(100, modifier, 20);
+  // get a value that will go range from 100 +- 20
+  return getPower(100, modifier, 40);
 }
 
 function getCreatureBaseDefense(genetics) {
+  // get code from genetics data set 11
   var set = getGeneticSet(genetics, 11);
+  // get element 0 in base 16 and add 1
   var m1 = (getGeneticSetElement(set, 1) + 1);
+  // get element 1 in base 16 and add 1
   var m2 = (getGeneticSetElement(set, 2) + 1);
-  var modifier = (m1 * m2) % 16;
+  // use the product and covert it to a number between 1 and 10
+  var modifier = (m1 * m2) % 10;
 
-  return getPower(100, modifier, 20);
+  // get a value that will go range from 100 +- 20
+  return getPower(100, modifier, 40);
 }
 
 
@@ -194,10 +212,16 @@ function buildCreatureMoves(_buildData) {
   var genetics = _buildData.genetics;
   //constructor(_name, _cooldown, _power, _critChance, _dev) {
 
-  var attackMoves = buildAttackMoves(genetics, 9, 8, 7);
+  // get codes from genetics data sets 9, 8, 7, 6 and build attacks
+  var attackMoves = buildAttackMoves(genetics, 9, 8, 7, 6);
+
+  // get codes from genetics data set 3 and build defenses
   var defenseMoves = buildDefenseMoves(genetics, 3);
 
-  var moves = new CreatureMoves(attackMoves, defenseMoves);
+  // get codes from genetics data set 5 and build heal
+  var healMoves = buildHealMoves(genetics, 5);
+
+  var moves = new CreatureMoves(attackMoves, defenseMoves, healMoves);
 
   return moves;
 }
