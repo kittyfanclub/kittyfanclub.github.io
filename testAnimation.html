@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="css/header.css" type="text/css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/loading-bar.css"/>
+</head>
+<body>
+  <script src="js/battle/creatures/display/animation/AttackAnimations.js"></script>
+  <script src="../static/jquery/jquery-1.11.3.min.js"></script>
+  <script src="js/battle/battleIncludes.js"></script>
+
+  <form id='form1' style="position:relative">
+    <!-- CAT 1 -->
+    <div id='cat1' style="position:absolute; top:150px; left:0px; z-index:1">
+      <canvas id="canvasKitty1" width="250" height="250" style="background-color:#FFFFFF"></canvas>
+    </div>
+    <div id='attacks1' style="position:absolute; top:400px; left:0px; z-index:3">
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="spin();">spin</button>
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="fallDown();">fallDown</button>
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="cartwheel();">cartwheel</button>
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="stackImage();">stack</button>
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="smaller();">Smaller</button>
+    </div>
+  </form>
+
+    <script>
+      var canvasInfo = new Object();
+      var battleCanvas = 'canvasKitty1';
+      canvasInfo.canvasName = battleCanvas;
+      canvasInfo.canvas = document.getElementById(battleCanvas);
+      canvasInfo.context = canvasInfo.canvas.getContext("2d");
+      var kitty = null;
+      var callbackFunction = function(creature) {
+        creature.display.width = canvasInfo.canvas.width;
+        creature.display.height = canvasInfo.canvas.height;
+        canvasInfo.creature = creature;
+        console.log(creature);
+      }
+      // this global function must be declared by one of the loaded js files
+      g_creatureBuilderFunction('2', callbackFunction);
+
+      var attackTime = 5.5 * canvasInfo.canvas.width;
+
+      function cartwheel() {
+        g_AniCartwheelAttack(canvasInfo, attackTime, callbackFunction);
+      }
+      function spin() {
+        g_AniFastSpin(canvasInfo, attackTime, callbackFunction);
+      }
+      function fallDown() {
+        g_AniFallDownAttack(canvasInfo, attackTime, callbackFunction);
+      }
+
+
+      function stackImage() {
+        canvasInfo.creature.display.addWound();
+        drawImageStack(canvasInfo.creature.display.img, canvasInfo.context, 0, 0, canvasInfo.creature.display.width, canvasInfo.creature.display.height);
+      }
+
+      function smaller() {
+        var newWidth = canvasInfo.creature.display.width * 0.9;
+        canvasInfo.creature.display.width = newWidth;
+        var newHeight = canvasInfo.creature.display.height * 0.9;
+        canvasInfo.creature.display.height = newHeight;
+        resizeWounds(newWidth, newHeight);
+        drawImageStack(canvasInfo.creature.display.img, canvasInfo.context, 0, 0, canvasInfo.creature.display.width, canvasInfo.creature.display.height);
+      }
+
+    </script>
+
+</body>
+</html>
