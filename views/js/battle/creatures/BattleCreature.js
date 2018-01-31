@@ -1,3 +1,4 @@
+// This code is licensed under the GNU General Public License found at: kittyfanclub.github.io/license.txt
 class BattleCreature {
   constructor(_name, _attributes, _display, _moves) {
     // static attributes
@@ -10,6 +11,8 @@ class BattleCreature {
 
   startBattle() {
     this.battle = new CreatureBattleData(this.attributes.life);
+    this.moves = this.moves.clone();
+    this.display.reset();
   }
 
   clone() {
@@ -20,11 +23,16 @@ class BattleCreature {
     var clone = new BattleCreature(name, attributes, display, moves);
     return clone;
   }
+
+  clearLingeringEffects() {
+    this.battle.lingeringEffects = [];
+  }
 }
 
 class CreatureBattleData {
   constructor(_currentLife) {
     this.currentLife = _currentLife;
+    this.lingeringEffects = [];
   }
 
 }
