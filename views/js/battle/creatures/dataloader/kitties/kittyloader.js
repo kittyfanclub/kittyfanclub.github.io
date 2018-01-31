@@ -1,3 +1,4 @@
+// This code is licensed under the GNU General Public License found at: kittyfanclub.github.io/license.txt
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');

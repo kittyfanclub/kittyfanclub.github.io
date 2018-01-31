@@ -1,3 +1,4 @@
+// This code is licensed under the GNU General Public License found at: kittyfanclub.github.io/license.txt
 var g_instanceId = 1;
 class BattleMove {
   constructor(_id, _name, _cooldown, _animation, _images) {

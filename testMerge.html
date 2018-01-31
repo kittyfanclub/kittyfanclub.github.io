@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="css/header.css" type="text/css" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="css/loading-bar.css"/>
+</head>
+<body>
+  <script src="js/battle/creatures/display/animation/AttackAnimations.js"></script>
+  <script src="../static/jquery/jquery-1.11.3.min.js"></script>
+  <script src="js/battle/battleIncludes.js"></script>
+
+  <form id='form1' style="position:relative">
+    <!-- CAT 1 -->
+    <div id='cat1' style="position:absolute; top:150px; left:0px; z-index:1">
+      <canvas id="canvasKitty1" width="250" height="250" style="background-color:#FFFFFF"></canvas>
+    </div>
+    <div id='cat2' style="position:absolute; top:150px; left:300px; z-index:1">
+      <canvas id="canvasMerge" width="250" height="250" style="background-color:#FFFFFF"></canvas>
+    </div>
+    <div id='attacks1' style="position:absolute; top:400px; left:0px; z-index:3">
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="loadcat('1');">cat1</button>
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="loadcat('2');">cat2</button>
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="loadcat('3');">cat3</button>
+      <button id="attackBtn" type="button" class="btn btn-primary" onclick="stackImage();">cat3</button>
+    </div>
+  </form>
+
+    <script>
+      // this global function must be declared by one of the loaded js files
+      var mergedImage = null;
+      function loadcat(num) {
+        var callbackFunction = function(creature) {
+          console.log(creature);
+          creature.display.width = 200;
+          creature.display.height = 200;
+          creature.display.img.crossOrigin="anonymous"
+
+          var battleCanvas = 'canvasKitty1';
+          var canvas = document.getElementById(battleCanvas);
+          var context = canvas.getContext("2d");
+
+          //context.fillStyle = '#D3D3D3';
+          context.clearRect(0, 0, creature.display.width, creature.display.width);
+          context.drawImage(creature.display.img, 0, 0, creature.display.width, creature.display.width);
+
+          // merge images and draw
+          mergedImage = mergeImages(mergedImage, creature.display.img);
+          var canvasMerged = document.getElementById('canvasMerge');
+          var contextMerged = canvasMerged.getContext("2d");
+          contextMerged.clearRect(0, 0, creature.display.width, creature.display.width);
+          context.drawImage(mergedImage, 0, 0, creature.display.width, creature.display.width);
+        }
+        g_creatureBuilderFunction(num, callbackFunction);
+
+      }
+
+      function stackImage() {
+
+      }
+    </script>
+
+</body>
+</html>

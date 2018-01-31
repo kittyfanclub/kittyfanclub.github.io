@@ -1,3 +1,4 @@
+// This code is licensed under the GNU General Public License found at: kittyfanclub.github.io/license.txt
 class FamilyItem {
   constructor(id, color, top, left, width, height) {
     this.id = id;

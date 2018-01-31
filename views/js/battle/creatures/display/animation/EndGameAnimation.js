@@ -1,3 +1,4 @@
+// This code is licensed under the GNU General Public License found at: kittyfanclub.github.io/license.txt
 var g_winner1Img = new Image();
 g_winner1Img.src = "pics/winner1.png";
 
@@ -40,7 +41,7 @@ function aniDropImage(canvasInfo, animationTime, callbackFunction, dropImg) {
   var height = canvasInfo.creature.display.height;
 
   context.clearRect(0, 0, canvas.width, canvas.height);
-  context.drawImage(image, defImageXOff, 0, height, width);
+  drawImageStack(image, context, defImageXOff, 0, width, height)
   let totaltime = animationTime;
   let intervals = 80;
   let intervalTime = animationTime / intervals;
@@ -54,7 +55,7 @@ function aniDropImage(canvasInfo, animationTime, callbackFunction, dropImg) {
       k1yLoc +=  yfactor;
     }
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image, defImageXOff, 0, height, width);
+    drawImageStack(image, context, defImageXOff, 0, width, height)
     context.drawImage(dropImg, defImageXOff, k1yLoc, height, width);
     if (timePassed > totaltime) {
       clearInterval(timer);
