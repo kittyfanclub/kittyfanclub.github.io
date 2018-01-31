@@ -1,3 +1,4 @@
+// This code is licensed under the GNU General Public License found at: kittyfanclub.github.io/license.txt
 // display is made up of the following regions:
 //
 //      stats 1      stats 2
@@ -175,6 +176,8 @@ function getSelectedMove(creatureNumber) {
 }
 
 function refreshScreenAfterAttack(turnNumber) {
+  paintBattleCanvasDefault(battleCanvasInfo1);
+  paintBattleCanvasDefault(battleCanvasInfo2);
   showBattleMoves(battleCanvasInfo1, turnNumber);
   showBattleMoves(battleCanvasInfo2, turnNumber);
   showLifeBar(battleCanvasInfo1);
@@ -227,6 +230,17 @@ function paintLoaderCanvasDefault(canvasInfo) {
       y += 10;
     }
 
+    context.fillText('heal (pwr, cldwn, dev)', x, y);
+    y += 10;
+
+    var moves = creature.moves.healMoves;
+    for (var i = 0; i < moves.length; i++) {
+      var move = moves[i];
+      var desc = "     " + move.name + move.moveStats();
+      context.fillText(desc, x, y);
+      y += 10;
+    }
+
     //canvasInfo.context.fillStyle = '#D3D3D3';
     //canvasInfo.context.fillRect(0, 0, canvasInfo.canvas.width, canvasInfo.canvas.height);
   }
@@ -241,7 +255,7 @@ function paintBattleCanvasDefault(canvasInfo) {
     var creatureDisplay = canvasInfo.creature.display;
     canvasInfo.context.clearRect(0, 0, canvasInfo.canvas.width, canvasInfo.canvas.height);
     if (showImages == true) {
-      canvasInfo.context.drawImage(creatureDisplay.img, 0, 0, creatureDisplay.height, creatureDisplay.width);
+      drawImageStack(creatureDisplay.img, canvasInfo.context, 0, 0, creatureDisplay.height, creatureDisplay.width);
     }
 
     //canvasInfo.context.fillStyle = '#D3D3D3';
@@ -287,19 +301,19 @@ function disableAttackBtn(disable) {
 }
 function displayEndGame(dead1, dead2) {
   var callback = function() {
-    alert('done');
+
   }
   var time = 5000;
   if (dead1) {
-    aniLoser(battleCanvasInfo1, time, callback);
+    aniLoser(battleCanvasInfo1, time, callback, true);
   }
   else {
-    aniWinner(battleCanvasInfo1, time, callback);
+    aniWinner(battleCanvasInfo1, time, callback, true);
   }
   if (dead2) {
-    aniLoser(battleCanvasInfo2, time, callback);
+    aniLoser(battleCanvasInfo2, time, callback, false);
   }
   else {
-    aniWinner(battleCanvasInfo2, time, callback);
+    aniWinner(battleCanvasInfo2, time, callback, false);
   }
 }
