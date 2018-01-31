@@ -301,7 +301,6 @@ function disableAttackBtn(disable) {
 }
 function displayEndGame(dead1, dead2) {
   var callback = function() {
-
   }
   var time = 5000;
   if (dead1) {
