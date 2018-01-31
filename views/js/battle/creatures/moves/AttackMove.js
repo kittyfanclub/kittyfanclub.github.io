@@ -1,3 +1,4 @@
+// This code is licensed under the GNU General Public License found at: kittyfanclub.github.io/license.txt
 class AttackMove extends BattleMove {
   constructor(_id, _name, _cooldown, _power, _critChance, _dev, _animation, _images) {
     super(_id, _name, _cooldown, _animation, _images);
