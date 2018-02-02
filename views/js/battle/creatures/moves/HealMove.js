@@ -10,7 +10,8 @@ class HealMove extends BattleMove {
     return "(h:" + this.healLevel + "," + this.cooldown + "," + this.dev + ")";
   }
   clone() {
-    var clone = new HealMove(this.id, this.name, this.cooldown, this.healLevel, this.dev, this.animation, this.images);
+    var clone = new HealMove(this.id, this.name, this.cooldown, this.healLevel, this.dev,
+      [this.preAnimation, this.animation, this.postAnimation], this.images);
     return clone;
   }
 }

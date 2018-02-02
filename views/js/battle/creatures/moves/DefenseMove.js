@@ -11,7 +11,8 @@ class DefenseMove extends BattleMove {
     return "(d:" + this.protectLevel + "," + this.cooldown + "," + this.duration + "," + this.dev + ")";
   }
   clone() {
-    var clone = new DefenseMove(this.id, this.name, this.cooldown, this.protectLevel, this.dev, this.duration, this.animation, this.images);
+    var clone = new DefenseMove(this.id, this.name, this.cooldown, this.protectLevel, this.dev, this.duration,
+      [this.preAnimation, this.animation, this.postAnimation], this.images);
     return clone;
   }
 }

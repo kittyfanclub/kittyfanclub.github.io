@@ -14,7 +14,8 @@ class AttackMove extends BattleMove {
   }
 
   clone() {
-    var clone = new AttackMove(this.id, this.name, this.cooldown, this.power, this.critChance, this.dev, this.animation, this.images);
+    var clone = new AttackMove(this.id, this.name, this.cooldown, this.power, this.critChance, this.dev,
+      [this.preAnimation, this.animation, this.postAnimation], this.images);
     return clone;
   }
 }
