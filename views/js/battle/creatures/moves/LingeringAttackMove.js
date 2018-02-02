@@ -14,7 +14,8 @@ class LingeringAttackMove extends BattleMove {
   }
 
   clone() {
-    var clone = new LingeringAttackMove(this.id, this.name, this.cooldown, this.power, this.lingeringEffectName, this.lingeringEffectChance, this.lingeringEffectDamage, this.dev, this.animation, this.images);
+    var clone = new LingeringAttackMove(this.id, this.name, this.cooldown, this.power, this.lingeringEffectName, this.lingeringEffectChance, this.lingeringEffectDamage, this.dev,
+      [this.preAnimation, this.animation, this.postAnimation], this.images);
     return clone;
   }
 }

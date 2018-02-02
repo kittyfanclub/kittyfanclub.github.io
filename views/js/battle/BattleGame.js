@@ -4,8 +4,8 @@ var battleGameCreature1;
 var battleGameCreature2;
 var g_battleRound = 1;
 
-function initGame(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2, _attackBtn) {
-  initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2, _attackBtn);
+function initGame(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2, _attackBtn, _battleLog) {
+  initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2, _attackBtn, _battleLog);
   disableAttackBtn(true);
 }
 
@@ -16,6 +16,7 @@ function resetArena() {
     battleGameCreature2.startBattle();
     refreshScreenAfterAttack(0);
     disableAttackBtn(false);
+    clearBattleLog();
   }
 }
 

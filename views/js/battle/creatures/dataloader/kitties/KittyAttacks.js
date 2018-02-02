@@ -123,7 +123,6 @@ function getSecondaryAttack(attackArray) {
   var attackCrit = attackArray[2] * 2;
   var attackDev = attackArray[3];
 
-
   //class LingeringAttackMove extends BattleMove {
   //constructor(_id, _name, _cooldown, _power, _lingeringEffectName, _lingeringEffectChance, _lingeringEffectDamage, _dev, _animation, _images) {
 
@@ -136,34 +135,39 @@ function getSecondaryAttack(attackArray) {
   var lingeringName = "bleeding";
   var lingeringDamage = 2;
 
+  var imgGi = new Image();
+  imgGi.overrideX = 0;
+  imgGi.overrideY = 100;
+  imgGi.overrideWidth = 240;
+  imgGi.overrideHeight = 100;
+  imgGi.src = 'pics/gi.png';
+
   switch (attackCode) {
-    // all bad
-    case 0: return new LingeringAttackMove("aikido", "aikido", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 0: return new LingeringAttackMove("aikido", "aikido", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
     case 1:
       lingeringName = "hurt back";
-      return new LingeringAttackMove("judo", "judo", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+      return new LingeringAttackMove("judo", "judo", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
     case 2:
       lingeringName = "ninja terror";
-      return new LingeringAttackMove("ninjutsu", "ninjutsu", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
-    case 3:
-      lingeringName = "bad smell";
-      return new LingeringAttackMove("sumo", "sumo", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
-    case 4: return new LingeringAttackMove("taekwondo", "taekwondo", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
-    case 5: return new LingeringAttackMove("mukna", "mukna", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
-    case 6: return new LingeringAttackMove("muaythai", "muay thai", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+    case 3: return new LingeringAttackMove("hapkido", "hapkido", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
+    case 4: return new LingeringAttackMove("taekwondo", "taekwondo", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
+    case 5: return new LingeringAttackMove("mukna", "mukna", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
+    case 6: return new LingeringAttackMove("muaythai", "muay thai", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
     case 7:
       lingeringName = "broken nose";
-      return new LingeringAttackMove("kravmaga", "krav maga", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniRunAttack);
-    case 8: return new LingeringAttackMove("hapkido", "hapkido", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniRunAttack);
+      return new LingeringAttackMove("kravmaga", "krav maga", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
+    case 8:
+      lingeringName = "bad smell";
+      return new LingeringAttackMove("sumo", "sumo", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_AniGrowFatAnimation, g_AniRunAttack, g_AniGetSkinnyAnimation]);
     case 9:
       lingeringName = "broken jaw";
-      return new LingeringAttackMove("boxing", "boxing", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
-    case 10: return new LingeringAttackMove("hungga", "hung ga", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
-    case 11: return new LingeringAttackMove("cuongnhu", "cuong nhu", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
-    case 12: return new LingeringAttackMove("bando", "bando", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
-    case 13: return new LingeringAttackMove("khridoli", "khridoli", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
-    case 14: return new LingeringAttackMove("limalama ", "limalama", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
-    case 15: return new LingeringAttackMove("bultong", "bultong", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, g_AniStationaryAttack);
+      return new LingeringAttackMove("boxing", "boxing", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
+    case 10: return new LingeringAttackMove("hungga", "hung ga", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
+    case 11: return new LingeringAttackMove("cuongnhu", "cuong nhu", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
+    case 12: return new LingeringAttackMove("bando", "bando", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
+    case 13: return new LingeringAttackMove("khridoli", "khridoli", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
+    case 14: return new LingeringAttackMove("limalama ", "limalama", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
+    case 15: return new LingeringAttackMove("bultong", "bultong", cooldown, attackPower, lingeringName, lingeringChance, lingeringDamage, devPerc, [g_aniLoadImage, g_AniJumpTowardAttack, g_aniHideImage], imgGi);
   }
   return null;
 }
@@ -309,8 +313,9 @@ function getHeal(dArray) {
   var cooldown = 5;
   var devPerc = getDevPerc(dTime, dDev);
 
-  // TODO: build lick animation
-  return new HealMove("lickwounds", "lick wounds", cooldown, dPower, devPerc, g_AniStationaryAttack);
+  var img = new Image();
+  img.src = "pics/tongue1.png";
+  return new HealMove("lickwounds", "lick wounds", cooldown, dPower, devPerc, g_AniMoveObjectUp, img);
 }
 
 function getPower(base, modifier, max) {

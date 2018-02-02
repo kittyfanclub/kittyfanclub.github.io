@@ -54,10 +54,14 @@
       <button id="chooseKitty" type="button" class="btn btn-primary" onclick="loadKittyAndDisplay();">Here Kitty, Kitty, Kitty</button>
       <button id="useKitty1" type="button" class="btn btn-primary" onclick="useInBattle(1);">Set Catestant 1</button>
       <button id="useKitty2" type="button" class="btn btn-primary" onclick="useInBattle(2);">Set Catestant 2</button>
-
+      <br>
+      <br>
+      Battle Log <br>
+      <textarea id='battleLog' rows="8" cols="80">
+      </textarea>
     </div>
     <script>
-      initGame('canvasKitty1', 'canvasKitty2', 'kittyImages', 'attacks1', 'attacks2', '#lifeBar1', '#lifeBar2', 'attackBtn');
+    initGame('canvasKitty1', 'canvasKitty2', 'kittyImages', 'attacks1', 'attacks2', '#lifeBar1', '#lifeBar2', 'attackBtn', 'battleLog');
       function loadKittyAndDisplay() {
         var kittyId = document.getElementById('kittyid').value;
         loadEntryCreature(kittyId);

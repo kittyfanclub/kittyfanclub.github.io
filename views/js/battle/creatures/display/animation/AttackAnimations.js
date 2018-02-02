@@ -24,6 +24,55 @@ function aniRunAttack(canvasInfo, attackTime, callbackFunction) {
   aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, 0, 0);
 }
 
+
+var g_aniHideImage = function aniHideImage(canvasInfo, attackTime, callbackFunction, attack) {
+  var canvas = canvasInfo.canvas;
+  var context = canvasInfo.context;
+  var image = canvasInfo.creature.display.img;
+  var defImageXOff = 0;
+  var width = canvasInfo.creature.display.width;
+  var height = canvasInfo.creature.display.height;
+  canvasInfo.creature.display.removeLastImage();
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  drawImageStack(image, context, defImageXOff, 0, width, height);
+  callbackFunction();
+}
+
+
+var g_aniLoadImage =
+function aniLoadImage(canvasInfo, attackTime, callbackFunction, attack) {
+
+  let start = Date.now();
+  var canvas = canvasInfo.canvas;
+  var context = canvasInfo.context;
+  var defImageXOff = 0;
+  var width = canvasInfo.creature.display.width;
+  var height = canvasInfo.creature.display.height;
+  var loadImg = attack.images;
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  // draw image
+  if (loadImg != undefined) {
+    canvasInfo.creature.display.addImage(loadImg);
+  }
+  var image = canvasInfo.creature.display.img;
+  drawImageStack(image, context, defImageXOff, 0, width, height);
+
+
+  let totaltime = attackTime;
+
+  // wait until time is done
+  let timer = setInterval(function() {
+    drawImageStack(image, context, defImageXOff, 0, width, height);
+    let timePassed = Date.now() - start;
+    if (timePassed > totaltime) {
+      clearInterval(timer);
+      callbackFunction(canvasInfo);
+    }
+
+  }, 100);
+}
+
 var g_AniGotoAttack =
 function aniHideAttack(canvasInfo, attackTime, callbackFunction, attack) {
   // need to store the hiding place image
@@ -63,9 +112,6 @@ function aniHideAttack(canvasInfo, attackTime, callbackFunction, attack) {
 
 var g_AniHideAttack =
 function aniHideAttack(canvasInfo, attackTime, callbackFunction, attack) {
-  // need to store the hiding place image
-  var hidingPlace = null;
-
   let start = Date.now();
   var canvas = canvasInfo.canvas;
   var context = canvasInfo.context;
@@ -98,8 +144,188 @@ function aniHideAttack(canvasInfo, attackTime, callbackFunction, attack) {
   }, 100);
 }
 
-function aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, xPercent, yPercent) {
+var g_AniMoveObjectUp =
+function aniMoveObjectUp(canvasInfo, attackTime, callbackFunction, attack) {
+  aniMoveObjectOnTop(canvasInfo, attackTime, callbackFunction, attack, 0, 1, false);
+}
+
+var g_AniMoveObjectForwardAttack =
+function aniRunAttack(canvasInfo, attackTime, callbackFunction, attack) {
+  aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, attack, 1, 0, true);
+}
+
+function aniMoveObjectOnTop(canvasInfo, attackTime, callbackFunction, attack, xPercent, yPercent, returnObject) {
   let start = Date.now();
+  var canvas = canvasInfo.canvas;
+  var context = canvasInfo.context;
+  var image = canvasInfo.creature.display.img;
+  var defImageXOff = 0; //getDefImageXOff(canvasInfo);
+  var width = canvasInfo.creature.display.width;
+  var height = canvasInfo.creature.display.height;
+  var onTopImages = attack.images;
+
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  drawImageStack(image, context, 0, 0, width, height)
+  drawImageStack(onTopImages, context, 0, 0, width, height)
+
+  let totaltime = attackTime;
+  let intervals = 40;
+  let intervalTime = attackTime / intervals;
+  let xfactor = intervals / 5 * xPercent;
+  let yfactor = intervals / 4 * yPercent;
+
+  if (returnObject == false)  {
+    xfactor = xfactor / 2;
+    yfactor = yfactor / 2;
+  }
+
+  var k1xLoc = 0;
+  var k1yLoc = 0;
+
+  let timer = setInterval(function() {
+    let timePassed = Date.now() - start;
+    if (timePassed < totaltime/2  || returnObject == false) {
+      if (xfactor != 0) {
+        k1xLoc = -timePassed / xfactor;
+      }
+      if (yfactor != 0) {
+        k1yLoc = -timePassed / yfactor;
+      }
+    }
+    else {
+      if (xfactor != 0) {
+        k1xLoc = -(totaltime - timePassed) / xfactor;
+      }
+      if (yfactor != 0) {
+        k1yLoc = -(totaltime - timePassed) / yfactor;
+      }
+    }
+    context.clearRect(0, 0, canvas.width, canvas.height);
+    drawImageStack(image, context, 0, 0, width, height);
+    drawImageStack(onTopImages, context, defImageXOff + k1xLoc, k1yLoc, width, height);
+
+    if (timePassed > totaltime) {
+      clearInterval(timer);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      drawImageStack(image, context, defImageXOff + k1xLoc, k1yLoc, width, height)
+      callbackFunction(canvasInfo);
+    }
+
+  }, 20);
+}
+
+
+var g_AniGrowFatAnimation =
+function aniGrowFatAnimation(canvasInfo, attackTime, callbackFunction, attack) {
+  aniGrowShrink(canvasInfo, attackTime, callbackFunction, 1.5, 1);
+}
+
+var g_AniGetSkinnyAnimation =
+function aniGetSkinnyAnimation(canvasInfo, attackTime, callbackFunction, attack) {
+  aniGrowShrink(canvasInfo, attackTime, callbackFunction, 1, 1);
+}
+
+function buildTransform(canvasInfo) {
+  if (canvasInfo.transform != undefined) {
+    return canvasInfo.transform;
+  }
+  else {
+    var matrix = new Object();
+    matrix.a = 1;
+    matrix.b = 0;
+    matrix.c = 0;
+    matrix.d = 1;
+    matrix.e = 0;
+    matrix.f = 0;
+
+    if (canvasInfo.flip == true) {
+      matrix.a = -1;
+      matrix.e = canvasInfo.canvas.width;
+    }
+  }
+  return matrix;
+}
+
+function setTransform(canvasInfo, a, b, c, d, e, f) {
+  var matrix = new Object();
+  matrix.a = a;
+  matrix.b = b;
+  matrix.c = c;
+  matrix.d = d;
+  matrix.e = e;
+  matrix.f = f;
+  canvasInfo.transform = matrix;
+}
+
+
+function aniGrowShrink(canvasInfo, attackTime, callbackFunction, xFinal, yFinal) {
+  var canvas = canvasInfo.canvas;
+  var context = canvasInfo.context;
+  var creatureDisplay = canvasInfo.creature.display;
+
+  // determine transform
+  var matrix = buildTransform(canvasInfo);
+
+  var xScale = matrix.a;
+  var xSkew = matrix.b;
+  var ySkew = matrix.c;
+  var yScale = matrix.d;
+  var xOffset = matrix.e;
+  var yOffset = matrix.f;
+
+  let totaltime = attackTime;
+  let intervals = 40;
+  let intervalTime = attackTime / intervals;
+
+  if (xScale < 0) {
+    xFinal = -xFinal;
+  }
+  var changeX = xFinal - xScale;
+  let xfactor = changeX / attackTime;
+
+  var changeY = yFinal - yScale;
+  let yfactor = changeY / attackTime;
+
+
+  let start = Date.now();
+  let timer = setInterval(function() {
+    let timePassed = Date.now() - start;
+    var curXScale = xScale + timePassed * xfactor;
+    var curYScale = yScale + timePassed * yfactor;
+
+    context.setTransform(curXScale, xSkew, ySkew, curYScale, xOffset, yOffset);
+    canvasInfo.context.clearRect(0, 0, canvasInfo.canvas.width, canvasInfo.canvas.height);
+    if (showImages == true) {
+      drawImageStack(creatureDisplay.img, canvasInfo.context, 0, 0, creatureDisplay.height, creatureDisplay.width);
+    }
+    if (timePassed > totaltime) {
+      clearInterval(timer);
+      setTransform(canvasInfo, curXScale, xSkew, ySkew, curYScale, xOffset, yOffset);
+      callbackFunction(canvasInfo);
+    }
+
+  }, intervalTime);
+}
+
+
+function paintBattleCanvasDefault(canvasInfo) {
+  if (canvasInfo.creature != undefined) {
+    if (canvasInfo.flip == true) {
+      var defTransXOff = canvasInfo.canvas.width;
+      canvasInfo.context.setTransform(-1, 0, 0, 1, defTransXOff, 0);
+    }
+    var creatureDisplay = canvasInfo.creature.display;
+    canvasInfo.context.clearRect(0, 0, canvasInfo.canvas.width, canvasInfo.canvas.height);
+    if (showImages == true) {
+      drawImageStack(creatureDisplay.img, canvasInfo.context, 0, 0, creatureDisplay.height, creatureDisplay.width);
+    }
+
+    //canvasInfo.context.fillStyle = '#D3D3D3';
+    //canvasInfo.context.fillRect(0, 0, canvasInfo.canvas.width, canvasInfo.canvas.height);
+  }
+}
+
+function aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, xPercent, yPercent) {
   var canvas = canvasInfo.canvas;
   var context = canvasInfo.context;
   var image = canvasInfo.creature.display.img;
@@ -118,6 +344,7 @@ function aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, xPercent, yP
   var k1xLoc = 0;
   var k1yLoc = 0;
 
+  let start = Date.now();
   let timer = setInterval(function() {
     let timePassed = Date.now() - start;
     if (timePassed < totaltime/2) {
@@ -232,7 +459,7 @@ function aniSpin(canvasInfo, rotateIncr, totalTime, axis, stopAtRotation, moveX,
    var start = Date.now();
    var rotateBack = true;
 
-   let intervals = attackTime / stepTime;
+   let intervals = totalTime / stepTime;
 
    let xfactor = intervals / 5 * moveX;
    let yfactor = intervals / 4 * moveY;
