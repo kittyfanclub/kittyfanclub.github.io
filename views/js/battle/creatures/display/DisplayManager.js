@@ -29,8 +29,9 @@ var movesDiv2 = new Object();
 var showImages = true;
 
 
-function initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2, _attackBtn) {
+function initCanvases(_battleCanvas1, _battleCanvas2, _loaderCanvas, _movesDiv1, _movesDiv2, _lifeBarName1, _lifeBarName2, _attackBtn, _battleLog) {
   battleControls.attackBtn = document.getElementById(_attackBtn);
+  battleControls.battleLog = document.getElementById(_battleLog);;
 
   battleCanvasInfo1.canvasName = _battleCanvas1;
   battleCanvasInfo1.canvas = document.getElementById(_battleCanvas1);
@@ -264,7 +265,45 @@ function paintBattleCanvasDefault(canvasInfo) {
 }
 
 function animateAttack(parentCallback, move1, move2) {
-  var attackTime = 5.5 * battleCanvasInfo1.canvas.width;
+
+  var preCB = function () {
+    var duringCB = function () {
+      var postCB = function () {
+        paintBattleCanvasDefault(battleCanvasInfo1);
+        paintBattleCanvasDefault(battleCanvasInfo2);
+        parentCallback();
+      }
+      postAttackAnimation(postCB, move1, move2);
+    }
+    duringAttackAnimation(duringCB, move1, move2);
+
+  }
+  preAttackAnimation(preCB, move1, move2);
+}
+
+function preAttackAnimation(parentCallback, move1, move2) {
+  var attack1 = null;
+  var attack2 = null;
+
+  if (move1 != undefined) {
+    attack1 = move1.preAnimation;
+  }
+  if (move2 != undefined) {
+    attack2 = move2.preAnimation;
+  }
+
+  var callbackCount = 0;
+  var callback = function(battleCanvasInfo) {
+    callbackCount++;
+    if (callbackCount >= 2) {
+      parentCallback();
+    }
+  }
+
+  attackAnimation(callback, move1, move2, attack1, attack2) ;
+}
+
+function duringAttackAnimation(parentCallback, move1, move2) {
   var attack1 = g_AniRunAttack;
   var attack2 = g_AniRunAttack;
 
@@ -279,28 +318,68 @@ function animateAttack(parentCallback, move1, move2) {
   var callback = function(battleCanvasInfo) {
     callbackCount++;
     if (callbackCount >= 2) {
-      paintBattleCanvasDefault(battleCanvasInfo1);
-      paintBattleCanvasDefault(battleCanvasInfo2);
       parentCallback();
     }
   }
 
+  attackAnimation(callback, move1, move2, attack1, attack2) ;
+}
+
+function postAttackAnimation(parentCallback, move1, move2) {
+  var attack1 = null;
+  var attack2 = null;
+
+  if (move1 != undefined) {
+    attack1 = move1.postAnimation;
+  }
+  if (move2 != undefined) {
+    attack2 = move2.postAnimation;
+  }
+
+  var callbackCount = 0;
+  var callback = function(battleCanvasInfo) {
+    callbackCount++;
+    if (callbackCount >= 2) {
+      parentCallback();
+    }
+  }
+
+  attackAnimation(callback, move1, move2, attack1, attack2) ;
+}
+
+function attackAnimation(parentCallback, move1, move2, attack1, attack2) {
+  var attackTime = 5.5 * battleCanvasInfo1.canvas.width;
+
   if (showImages == true) {
-    attack1(battleCanvasInfo1, attackTime, callback, move1);
-    attack2(battleCanvasInfo2, attackTime, callback, move2);
+    if (attack1 == undefined) {
+      parentCallback();
+    }
+    else {
+      attack1(battleCanvasInfo1, attackTime, parentCallback, move1);
+    }
+
+    if (attack2 == undefined) {
+      parentCallback();
+    }
+    else {
+      attack2(battleCanvasInfo2, attackTime, parentCallback, move2);
+    }
   }
   else {
     // just do callbacks
-    callback(battleCanvasInfo1);
-    callback(battleCanvasInfo2);
+    parentCallback(battleCanvasInfo1);
+    parentCallback(battleCanvasInfo2);
   }
 }
+
+
 
 function disableAttackBtn(disable) {
   battleControls.attackBtn.disabled = disable;
 }
 function displayEndGame(dead1, dead2) {
   var callback = function() {
+
   }
   var time = 5000;
   if (dead1) {
@@ -314,5 +393,21 @@ function displayEndGame(dead1, dead2) {
   }
   else {
     aniWinner(battleCanvasInfo2, time, callback, false);
+  }
+}
+
+function addToBattleLog(text) {
+  if (battleControls.battleLog != undefined) {
+    var newText = battleControls.battleLog.innerHTML;
+    newText += text + "\n";
+    battleControls.battleLog.innerHTML = newText;
+    battleControls.battleLog.innerText = newText;
+  }
+}
+
+function clearBattleLog(text) {
+  if (battleControls.battleLog != undefined) {
+    battleControls.battleLog.innerHTML = "";
+    battleControls.battleLog.innerText = "";
   }
 }
