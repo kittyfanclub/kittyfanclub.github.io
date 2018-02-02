@@ -175,6 +175,7 @@ function applyDamage(damageArr) {
       if (damage < 0) {
         desc = source + " " + info + " healed " + creature.name + " for " + (-damage) +  " life ";
       }
+      addToBattleLog(desc);
       console.log(desc);
 
     }
