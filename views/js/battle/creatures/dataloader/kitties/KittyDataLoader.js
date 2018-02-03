@@ -59,7 +59,7 @@ function getGeneticCode(id) {
 }
 
 function getGeneticCodeAsynch(id, catData, callback) {
-  var idHexNum = id.toString(16);
+  var idHexNum = parseInt(id).toString(16);
   var idHex = idHexNum + "";
   while (idHex.length < 6) {
     idHex = "0" + idHex;
