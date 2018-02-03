@@ -377,38 +377,38 @@ function aniMoveAndReturn(canvasInfo, attackTime, callbackFunction, xPercent, yP
 
 var g_AniFallDownAttack =
 function aniFallDown(canvasInfo, attackTime, callbackFunction) {
-  aniSpin(canvasInfo, 0.04, attackTime, 'y', 0.04);
+  aniSpin(canvasInfo, 0.04, attackTime, callbackFunction, 'y', 0.04);
 }
 
 
 var g_AniSpin =
 function aniSpinInPlace(canvasInfo, attackTime, callbackFunction) {
-  aniSpin(canvasInfo, 0.07, attackTime, 'x');
+  aniSpin(canvasInfo, 0.07, attackTime, callbackFunction, 'x');
 }
 
 var g_AniFastSpin =
 function aniSpinInPlace(canvasInfo, attackTime, callbackFunction) {
-  aniSpin(canvasInfo, 0.3, attackTime, 'x');
+  aniSpin(canvasInfo, 0.3, attackTime, callbackFunction, 'x');
 }
 
 
 
 var g_AniSpinAttack =
 function aniSpinInPlace(canvasInfo, attackTime, callbackFunction) {
-  aniSpin(canvasInfo, 0.07, attackTime, 'x', null, 1);
+  aniSpin(canvasInfo, 0.07, attackTime, callbackFunction, 'x', null, 1);
 }
 
 var g_AniCartwheel =
 function aniSpinInPlace(canvasInfo, attackTime, callbackFunction) {
-  aniSpin(canvasInfo, 0.14, attackTime, 'z');
+  aniSpin(canvasInfo, 0.14, attackTime, callbackFunction, 'z');
 }
 
 var g_AniCartwheelAttack =
 function aniSpinInPlace(canvasInfo, attackTime, callbackFunction) {
-  aniSpin(canvasInfo, 0.14, attackTime, 'z', null, 1);
+  aniSpin(canvasInfo, 0.14, attackTime, callbackFunction, 'z', null, 1);
 }
 
-function aniSpin(canvasInfo, rotateIncr, totalTime, axis, stopAtRotation, moveX, moveY, moveAndReturn) {
+function aniSpin(canvasInfo, rotateIncr, totalTime, callbackFunction, axis, stopAtRotation, moveX, moveY, moveAndReturn) {
   var canvas = canvasInfo.canvas;
   var context = canvasInfo.context;
   var image = canvasInfo.creature.display.img;
@@ -537,6 +537,8 @@ function aniSpin(canvasInfo, rotateIncr, totalTime, axis, stopAtRotation, moveX,
              context.clearRect(0, 0, width, height);
              drawImageStack(image, context, 0, 0, width, height)
            }
+           if (callbackFunction != undefined) {
+             callbackFunction();
          }
        }
      }
