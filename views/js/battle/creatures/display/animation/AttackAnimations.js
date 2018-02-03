@@ -539,6 +539,7 @@ function aniSpin(canvasInfo, rotateIncr, totalTime, callbackFunction, axis, stop
            }
            if (callbackFunction != undefined) {
              callbackFunction();
+           }
          }
        }
      }
