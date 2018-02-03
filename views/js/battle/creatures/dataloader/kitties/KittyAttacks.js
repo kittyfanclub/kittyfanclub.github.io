@@ -53,11 +53,17 @@ function getAttackCodes(attackSet, conflictAttack) {
         break;
       }
     }
-    // shift if necessary
     if (curAttack >= 4) {
-      // no attack for you!
-      return null;
+      // add a default  attack
+      curAttack = 0;
+      if (codeArr[0] == 0) {
+        codeArr[0] = 1;
+      }
+      else {
+        codeArr[0] = 0;
+      }
     }
+    // shift if necessary
     for (var i = 0; i < curAttack; i++) {
       var moveMe = codeArr[0];
       // remove from begining
